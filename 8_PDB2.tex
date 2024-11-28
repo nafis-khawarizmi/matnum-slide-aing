@@ -34,18 +34,39 @@
 		\end{enumerate}
 	\end{frame}
 	\begin{frame}{Metode Beda Hingga: Pengantar}
-		Pada dasarnya, metode beda hingga ingin mendekati solusi analitik dengan polinom piecewise. Untuk membangun metode beda hingga, di slides ini akan digunakan \emph{prinsip Galerkin}. Sebelum itu, diperlukan beberapa definisi. \\
+		Pada dasarnya, metode beda hingga ingin mendekati solusi analitik dengan polinom piecewise. Untuk membangun metode beda hingga, di slides ini akan digunakan \emph{prinsip Rayleigh-Ritz} dan \emph{prinsip Galerkin}. Sebelum itu, diperlukan beberapa definisi. \par
 		\begin{definition}[Ruang $L^2$]
-			Misalkan $a,b\in\mathbb{R}, a<b$. \emph{Ruang $L^2(a,b)$} didefinisikan sebagai himpunan semua fungsi $v:[a,b]\to\mathbb{R}$ dengan \emph{norm} yang didefinisikan sebagai
+			Misalkan $a,b\in\mathbb{R}, a<b$. \emph{Ruang $L^2(a,b)$} didefinisikan sebagai himpunan semua fungsi $v:[a,b]\to\mathbb{R}$ dengan \emph{hasil kali dalam} yang didefinisikan sebagai
 			\begin{align*}
-				\|v\|_2 = \|v\|_{L^2(a,b)} = \left(\int_{a}^{b} |v(x)|^2 dx\right)^{1/2} < \infty.
+				\langle u,v\rangle_{L^2(a,b)} = \left(\int_{a}^{b} |u(x)v(x)| dx\right)^{1/2} < \infty.
 			\end{align*}
 		\end{definition}
+	\end{frame}
+	\begin{frame}{Metode Beda Hingga: Pengantar}
 		\begin{definition}[Ruang Sobolev]
-			Misalkan $k\in\mathbb{N}$, dan $a,b\in\mathbb{R}, a<b$. Kita definisikan \emph{Ruang Sobolev} $H^k(a,b)$ sebagai himpunan semua fungsi $v:[a,b]\to\mathbb{R}$ sehingga $v$ dan turunan-turunannya sampai orde ke $k-1$ kontinu absolut di $[a,b]$ dan $v^{(k)}\in L^2(a,b)$, dan norm
+			Misalkan $k\in\mathbb{N}$, dan $a,b\in\mathbb{R}, a<b$. Kita definisikan \emph{Ruang Sobolev} $H^k(a,b)$ sebagai himpunan semua fungsi $v:[a,b]\to\mathbb{R}$ sehingga $v$ dan turunan-turunannya sampai orde ke $k-1$ kontinu absolut di $[a,b]$ dan $v^{(k)}\in L^2(a,b)$, dan hasil kali dalam
 			\begin{align*}
-				\|v\|_{H^k(a,b)} = \left(\sum_{m=0}^{k}\|v^{(m)}\|^2_{L^2(a,b)}\right)^{1/2}
+				\langle u,v\rangle_{H^k(a,b)} = \left(\sum_{m=0}^{k}\langle u^{(m)},v^{(m)}\rangle_{L^2(a,b)}\right)^{1/2}.
 			\end{align*}
 		\end{definition}
+		\begin{definition}[Ruang Hilbert]
+			Misalkan $(V,\langle\cdot,\cdot\rangle)$ adalah ruang hasil kali dalam terhadap lapangan $\mathbb{F}$. Kita sebut $V$ sebagai \emph{ruang Hilbert} jika terhadap norm $\|v\|=\langle v,v\rangle$, $V$ lengkap, dengan kata lain setiap barisan Cauchy di $V$ konvergen di $V$.
+		\end{definition}
+		\begin{definition}[Ruang Dual]
+			Misalkan $V$ adalah ruang vektor terhadap lapangan $\mathbb{F}$. \emph{Ruang dual} dari $V$, ditulis $V'$, didefinisikan sebagai himpunan semua transformasi linear $l:V\to\mathbb{F}$, dengan $l$ disebut \emph{fungsional linear}.
+		\end{definition}
+	\end{frame}
+	\begin{frame}{Metode Beda Hingga: Konstruksi}
+		Di sini, akan ditinjau konstruksi metode Galerkin pada ruang Hilbert $V$. Bisa dibuktikan bahwa ruang $L^2$ dan ruang Sobolev adalah ruang Hilbert. Maka, konstruksi yang ada di sini adalah perumuman dari metode beda hingga. \par
+		Misalkan $V$ adalah ruang Hilbert, $a(\cdot,\cdot):V\times V\to \mathbb{R}$ adalah fungsi yang linear terhadap kedua argumennya (disebut \emph{bilinear}), dan $l\in V'$. Kita akan tinjau masalah
+		\begin{align}\label{fdm_cons1}
+			u\in V, \, a(u,v) = l(v) \, \forall v\in V,
+		\end{align}
+		dengan asumsi $a(\cdot,\cdot)$ terbatas dan $V$-eliptik
+		\begin{align}
+			|a(u,v)|&\leq M\|u\|_V\|v\|_V \, \forall u,v\in V, \label{fdm_cons2} \\
+			a(v,v) &\geq c_0\|v\|_V^2 \, \forall v\in V. \label{fdm_cons3}
+		\end{align}
+		untuk suatu $M,c_0>0$. Secara umum, sulit menyelesaikan masalah seperti ini karena $V$ biasanya berdimensi tak hingga. 
 	\end{frame}
 \end{document}
