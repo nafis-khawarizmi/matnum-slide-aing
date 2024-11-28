@@ -27,6 +27,13 @@
 		\begin{align*}
 			u(a) = A, u(b) = B.
 		\end{align*}
+		Sebagai contoh,
+		\begin{align*}
+			\begin{cases}
+				u'' + p(x)u = f(x), & a<x<b, \\
+				u(a) = A, u(b) = B.
+			\end{cases}
+		\end{align*}
 		Untuk menyelesaikan masalah nilai batas secara numerik, ada dua metode:
 		\begin{enumerate}
 			\item Metode Galerkin (khususnya metode beda hingga),
@@ -67,6 +74,25 @@
 			|a(u,v)|&\leq M\|u\|_V\|v\|_V \, \forall u,v\in V, \label{fdm_cons2} \\
 			a(v,v) &\geq c_0\|v\|_V^2 \, \forall v\in V. \label{fdm_cons3}
 		\end{align}
-		untuk suatu $M,c_0>0$. Secara umum, sulit menyelesaikan masalah seperti ini karena $V$ biasanya berdimensi tak hingga. 
+		untuk suatu $M,c_0>0$. Bisa dibuktikan bahwa masalah \eqref{fdm_cons1} memiliki solusi tunggal. Tapi, secara umum, sulit menyelesaikan masalah tersebut karena $V$ biasanya berdimensi tak hingga. 
+	\end{frame}
+	\begin{frame}{Metode Beda Hingga: Konstruksi}
+		Dengan asumsi \eqref{fdm_cons2}, \eqref{fdm_cons3}, kita batasi masalah \eqref{fdm_cons1} ke subruang $V_n\subset V$ yang berdimensi $n$, yaitu
+		\begin{align}\label{fdm_cons4}
+			u_n\in V_n, \, a(u_n, v) = l(v), \, \forall v\in V_n.
+		\end{align}
+		Karena $V_n$ berdimensi hingga, kita bisa definisikan basis $\{\phi_i\}_{i=1}^n$ sehingga
+		\begin{align*}
+			u_n = \sum_{j=1}^{n} \xi_j\phi_j.
+		\end{align*}
+		Sekarang dengan menuliskan $v$ sebagai $\phi_i$ di \eqref{fdm_cons4} untuk setiap $i$, kita dapatkan SPL
+		\begin{align}
+			A\vec{\xi} = \vec{b}
+		\end{align}
+		dengan $A = [a(\phi_j,\phi_i)]$, $\vec{\xi} = [\xi_j]$, dan $\vec{b} = [l(\phi_i)]$. Maka \eqref{fdm_cons4} bisa diselesaikan dengan cara menyelesaikan SPL seperti di ALE.
+	\end{frame}
+	\begin{frame}{Metode Beda Hingga: Konstruksi}
+		Tentunya solusi $u_n$ secara umum akan berbeda dari $u$. Agar solusi lebih akurat, bisa ditentukan solusi $u_N$ di $V_N\subset V$ sehingga $N>n$. Maka, untuk suatu barisan subruang $V_{n_1} \subset V_{n_2} \subset \cdot \subset V$, kita bisa hitung suatu barisan solusi $u_{n_i}\in V_{n_i}$. Prosedur ini disebut \emph{metode Galerkin}. \newline
+		Sekarang kita akan tinjau masalah \eqref{fdm_cons1} di ruang Sobolev $H^2(a,b)$.
 	\end{frame}
 \end{document}
