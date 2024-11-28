@@ -1,0 +1,144 @@
+\documentclass[xcolor={dvipsnames}, 9pt]{beamer}
+\usetheme{default}
+\usepackage{amsmath, amsfonts, tikz, xcolor, biblatex}
+\usepackage[cal = esstix]{mathalpha}
+\usefonttheme{serif}
+
+\addbibresource{referensi.bib}
+
+\setbeamercolor{background canvas}{bg=BrickRed!25!White}
+\renewcommand{\emph}[1]{\textcolor{Blue}{#1}}
+
+\title{MatNum: Persamaan Diferensial Biasa}
+\author{Fadhlannafis K. K.}
+\date{10122040}
+\begin{document}
+	\begin{frame}[plain]
+		\maketitle
+	\end{frame}
+	\begin{frame}{Catatan}
+		PPT ini saya buat untuk menunjang pembelajaran matematika numerik saya, setelah UTS saya di bawah setengahnya rata-rata (alias kuartil 4). \newline
+		Pembahasan di PPT ini cenderung teoritik. Saya mengambil referensi dari PPT Bu Lena dan dari:
+		\nocite{*}
+		\printbibliography
+    \end{frame}
+    \begin{frame}{Prinsip Kontraksi Banach}
+        Ingat kembali jaminan dari eksistensi barisan yang digunakan untuk menghampiri akar dari suatu persamaan:
+        \begin{theorem}[Prinsip Kontraksi Banach]
+            Misalkan $(V,\|\cdot\|)$ ruang Banach, $K$ subhimpunan tutup takkosong dari $V$, dan $T:K\to K$ adalah pemetaan kontraktif dengan konstanta kontraktif $\alpha$. Maka ada secara tunggal $u\in K$ sehingga $u=T(u)$. 
+        \end{theorem}
+    \end{frame}
+    \begin{frame}{Teorema Picard}
+        Misalkan $(V,\|\cdot\|)$ adalah ruang Banach. Tinjau masalah nilai awal berikut.
+        \begin{align}\label{ivp}
+            \begin{cases}
+                y'(x) = f(x,y(x)), & |x-x_0| < a, \\
+                y(x_0) = y_0,
+            \end{cases}
+        \end{align}
+        dengan $y_0\in V$ dan $f:[t_0-a,t_0+a]\times V\to V$ kontinu. Biasanya, kita ambil $V=\mathbb{R}$. Untuk menjamin bahwa masalah nilai awal tersebut memiliki solusi, diperlukan
+        \begin{theorem}[Picard]
+            Misalkan fungsi $(x,y)\to f(x,y)$ kontinu di daerah persegi panjang $D = [x_0,X_M] \times [y_0-C, y_0+C]$, memenuhi $|f(x,y_0)|\leq K$ ketika $x\in[x_0,X_M]$, dan $f$ kontinu Lipschitz. Asumsikan
+            \begin{align*}
+                C\geq \frac{K}{L}\left(e^{L(X_M-x_0)}-1\right).
+            \end{align*}
+            Maka ada secara tunggal suatu fungsi $y\in C^1[x_0,X_M]$ sehingga $y(x_0)=y_0$ dan $y'=f(x,y)$ untuk $x\in [x_0, X_M]$, dan memenuhi
+            \begin{align*}
+                |y(x)-y_0|\leq C, x_0\leq x\leq X_M.
+            \end{align*}
+        \end{theorem}
+    \end{frame}
+    \begin{frame}{Teorema Picard}
+        Bukti: \emph{(Eksistensi)} Definisikan barisan fungsi $(y_n)$ sebagai
+        \begin{align}\label{construct}
+            y_0(x) &\equiv y_0 \nonumber \\
+            y_n(x) &= y_0 + \int_{x_0}^x f(s,y_{n-1}(s))ds.
+        \end{align}
+        Karena $f$ kontinu di $D$, didapat $y_n$ kontinu di $[x_0,X_M]$. Lebih lanjut, dari konstruksi di \eqref{construct} didapat
+        \begin{align}\label{diff}
+            y_{n+1}(x)-y_n(x) = \int_{x_0}^x (f(s,y_n(s))-f(s,y_{n-1}(s))) ds.
+        \end{align}
+        Perhatikan bahwa
+        \begin{align*}
+            |y_1(x)-y_0(x)| &= \int_{x_0}^x (f(s,y_1(s))-f(s,y_0(s))) ds. \leq \frac{K}{L}(x-x_0).
+        \end{align*}
+    \end{frame}
+    \begin{frame}{Teorema Picard}
+        Sekarang asumsikan, untuk suatu nilai $n$ yang positif, $x\in [x_0,X_M]$, dan untuk setiap $k\in\{1,\dots,n\}$,
+        \begin{align}
+            |y_n(x)-y_{n-1}(x)| &\leq \frac{K}{L}\frac{(L(x-x_0))^n}{n!}, \label{induct1} \\ 
+            |y_k(x)-y_0| &\leq \frac{K}{L} \sum_{j=1}^k \frac{(L(x-x_0))^j}{j!}. \label{induct2}
+        \end{align}
+        Dari \eqref{induct2} dan hipotesis, untuk $x\in[x_0,X_M]$ dan $k\in\{1,\dots,n\}$ didapat
+        \begin{align*}
+            |y_k(x)-y_0| \leq \frac{K}{L}\left(e^{L(X_M-x_0)}-1\right)\leq C
+        \end{align*}
+        yang membuat $(x,y_{n-1}(x)),(x,y_n(x))\in D$ untuk setiap $x\in[x_0,X_M]$. Maka, dari \eqref{diff}, syarat Lipschitz, dan \eqref{induct1}, didapat untuk setiap $x\in[x_0,X_M]$
+        \begin{align}\label{induct3}
+            |y_{n+1}(x)-y_n(x)| \leq L\int_{x_0}^x \frac{K}{L}\frac{(L(s-x_0))^n}{n!}ds = \frac{K}{L}\frac{(L(s-x_0))^{n+1}}{(n+1)!}.
+        \end{align}
+    \end{frame}
+    \begin{frame}{Teorema Picard}
+        
+    \end{frame}
+    \begin{frame}{Teorema Ekuivalensi Lax}
+        Nanti akan dilihat bahwa untuk menyelesaikan persamaan diferensial secara numerik, akan dibangun suatu barisan. Jaminan bahwa barisan tersebut konvergen ke solusi analitiknya diberikan oleh \emph{Teorema Ekuivalensi Lax}, yang akan diberikan setelah ini. \\
+        Sebelum itu, diperlukan beberapa definisi. 
+    \end{frame}
+    \begin{frame}{Metode Satu-Langkah}
+        Di metode ini, akan dikonstruksi suatu barisan secara rekursif sebagai berikut:
+        \begin{align}\label{onestep}
+            y_0 = y(x_0),\, y_n = g(x_{n-1}, y_{n-1}; h) \, \forall n\geq 1.
+        \end{align}
+        Harapannya, barisan yang dikonstruksi konvergen ke solusi analitik. Dengan T. Ekuivalensi Lax yang sudah dibuktikan sebelumnya, jika MNA yang dihadapi cukup "baik", maka kekonvergenan barisan di \eqref{onestep} dijamin. \\
+        Terlihat bahwa barisan $y_n$ hanya bergantung pada \emph{satu nilai sebelumnya}, dan dari sinilah nama \emph{satu langkah} muncul. Nantinya, akan ada metode yang nilai barisannya bergantung pada $k$ nilai sebelumnya.
+    \end{frame}
+    \begin{frame}{Metode Satu-Langkah}
+        Tentunya, sebagai suatu metode numerik, metode satu-langkah memiliki galat. Kita bisa definisikan \emph{galat global} sebagai 
+        \begin{align*}
+            e_n = y(x_n) - y_n,
+        \end{align*}dan \emph{galat pemotongan} sebagai
+        \begin{align*}
+            T_n = \frac{y(x_{n+1})-y(x_n)}{h} - g(x_n,y(x_n);h).
+        \end{align*}
+        Teorema berikut memberikan batas orde galat total dalam galat pemotongan.
+        \begin{theorem}
+            Tinjau metode satu-langkah \eqref{onestep} dengan asumsi $g$ kontinu terhadap kedua peubahnya, dan kontinu Lipschitz terhadap argumen $y$ dengan konstanta $L_g$ di
+            \begin{align*}
+                D = \{(x,y) : x_0\leq x\leq X_M, |y-y_0|\leq C\}.
+            \end{align*}
+            Jika $|y_n-y_0|\leq C$ untuk $n=1,2,\dots, N$, maka
+            \begin{align*}
+                |e_n| \leq \frac{T}{L_g}\left(e^{L_g(x_n-x_0)}-1\right), \, n=1,2,\dots,N, T = \max_{0\leq n\leq N-1}|T_n|.
+            \end{align*}
+        \end{theorem}
+    \end{frame}
+    \begin{frame}{Metode Satu-Langkah}
+        Bukti. Dari definisi galat pemotongan dan \eqref{onestep}, didapat
+        \begin{align*}
+            e_{n+1} = e_n + h(g(x_n,y(x_n);h)-g(x_n,y_n;h))+hT_n
+        \end{align*}
+        Lalu, karena $(x_n,y(x_n))$ dan $(x_n,y_n)$ ada di $D$, kondisi Lipschitz mengakibatkan
+        \begin{align*}
+            |e_{n+1}| \leq |e_n| + hL_g|e_n| + h|T_n| = (1+hL_g)|e_n| + h|T_n|, \, n=0,1,\dots,N-1.
+        \end{align*}
+        Dari induksi, didapat
+        \begin{align*}
+            |e_n| \leq \frac{T}{L_g}((1+hL_g)^n-1) \leq \frac{T}{L_g}(e^{hL_gn}-1) = \frac{T}{L_g}(e^{L_g(x_n-x_0)}-1). \blacksquare
+        \end{align*}
+    \end{frame}
+    \begin{frame}{Metode Satu-Langkah: Euler}
+        Tinjau masalah nilai awal yang ada di \eqref{ivp}. Definisikan barisan $(x_n)$ dengan elemen pertama $x_0$ dan $x_n = x_{n-1} + h$ untuk $n\geq 1$. Tinjau ekspansi deret Taylor
+        \begin{align*}
+            y(x_{n+1}) = y(x_n+h) = y(x_n) + hf(x_n,y(x_n)) + O(h^2)
+        \end{align*}
+        Maka bisa didefinisikan barisan
+        \begin{align}\label{euler}
+            y_{n+1} = y_n + hf(x_n,y_n), \, y_0 = y(x_0)
+        \end{align}
+        Aproksimasi solusi masalah nilai awal dengan menggunakan barisan ini disebut sebagai \emph{metode Euler}.
+    \end{frame}
+    \begin{frame}{Metode Satu-Langkah: Euler}
+        
+    \end{frame}
+\end{document}

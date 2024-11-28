@@ -1,0 +1,89 @@
+\documentclass[xcolor={dvipsnames}, 9pt]{beamer}
+\usetheme{default}
+\usepackage{amsmath, amsfonts, tikz, xcolor, biblatex}
+\usepackage[cal = esstix]{mathalpha}
+\usefonttheme{serif}
+
+\addbibresource{referensi.bib}
+
+\setbeamercolor{background canvas}{bg=BrickRed!25!White}
+\newcommand{\emp}[1]{\textcolor{Blue}{#1}}
+
+\title{MatNum: Pengantar}
+\author{Fadhlannafis K. K.}
+\date{10122040}
+\begin{document}
+	\begin{frame}[plain]
+		\maketitle
+	\end{frame}
+	\begin{frame}{Catatan}
+		PPT ini saya buat untuk menunjang pembelajaran matematika numerik saya, setelah UTS saya di bawah setengahnya rata-rata (alias kuartil 4). \newline
+		Pembahasan di PPT ini cenderung teoritik. Saya mengambil referensi dari PPT Bu Lena dan dari:
+		\nocite{*}
+		\printbibliography
+	\end{frame}
+	\begin{frame}{Apa Itu Numerik?}
+		\emp{Matematika Numerik} adalah ilmu yang mempelajari prosedur untuk memecahkan masalah matematika menggunakan perhitungan yang sederhana. \newline
+		\emp{Analisis Numerik} adalah matematika numerik, dengan mencakup pembuktian rumus-rumus yang diberikan. \newline
+		\emp{Metode Numerik} adalah matematika numerik, dengan lebih menekankan pada penggunaan rumus. \newline
+        Dalam mata kuliah Matematika Numerik, lebih ditekankan metode numerik. \newline
+        Dalam slides ini, sangat ditekankan analisis numerik, dengan sedikit cara penggunaan.
+	\end{frame}
+	\begin{frame}{Tahapan}
+		content...
+	\end{frame}
+	\begin{frame}{Algoritma}
+		content...
+	\end{frame}
+	\begin{frame}{Galat}
+		content...
+	\end{frame}
+	\begin{frame}{Angka Signifikan}
+		content...
+	\end{frame}
+	\begin{frame}{Perlunya Analisis}
+		Pada numerik, kita akan sering berhadapan dengan masalah \emp{konvergensi} dari metode yang kita pilih. \newline
+		Nantinya, kita akan memperhatikan apakah barisan:
+		\begin{enumerate}
+			\item nilai hampiran akar,
+			\item fungsi hampiran,
+			\item vektor hampiran vektor eigen,
+			\item dan lain sebagainya,
+		\end{enumerate}
+		itu konvergen ke yang sebenarnya. Untuk itu, diperlukan \emp{Analisis Fungsional}.
+	\end{frame}
+    \begin{frame}{Ruang Bernorm}
+        Misalkan $V$ adalah ruang vektor atas lapangan $\mathbb{F}$. Kita sebut $V$ sebagai \emp{ruang bernorm} jika ada fungsi \emp{norm} $\|\cdot\|:V\to [0,\infty)$ sehingga untuk setiap $u,v\in V$ dan $\alpha\in\mathbb{F}$:
+        \begin{enumerate}
+            \item $\|v\|\geq 0$, dan $\|v\|=0$ jhj $v=0$,
+            \item $\|\alpha v\|=|\alpha|\|v\|$,
+            \item $\|u+v\|\leq\|u\|+\|v\|$.
+        \end{enumerate}
+        Suatu \emp{seminorm} adalah fungsi $\|\cdot\|:V\to[0,\infty)$ yang memenuhi ketiga sifat tadi, kecuali $\|v\|=0$ tidak menjamin $v=0$.
+    \end{frame}
+    \begin{frame}{Ruang Bernorm}
+        Beberapa contoh ruang bernorm adalah:
+        \begin{enumerate}
+            \item Di $\mathbb{R}^d$, \emp{norm Euclid} didefinisikan sebagai
+            \begin{align*}
+                \|x\|_2 = \left(\sum_{i=1}^d x_i^2\right)^{1/2}.
+            \end{align*}
+            \item 
+        \end{enumerate}
+    \end{frame}
+	\begin{frame}{Ruang Metrik}
+		Misalkan $V$ adalah ruang vektor atas lapangan $\mathbb{F}$. Kita sebut $V$ sebagai \emp{ruang metrik} jika ada fungsi \emp{metrik} $d:V\times V\to [0,\infty)$ sehingga untuk setiap $u,v,w\in V$:
+		\begin{enumerate}
+			\item $d(v,w) \geq 0$, dan $d(v,w) = 0$ jhj $v=w$,
+			\item $d(v,w) = d(w,v)$,
+			\item $d(v,w) \leq d(v,u) + d(u,w)$.
+		\end{enumerate}
+        Terlihat bahwa ruang metrik adalah perumuman dari ruang bernorm.
+	\end{frame}
+    \begin{frame}{Ruang Metrik}
+        
+    \end{frame}
+    \begin{frame}{Konvergensi}
+        
+    \end{frame}
+\end{document}

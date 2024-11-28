@@ -1,0 +1,247 @@
+\documentclass[xcolor={dvipsnames}, 9pt]{beamer}
+\usetheme{default}
+\usepackage{amsmath, amsfonts, tikz, xcolor, biblatex}
+\usepackage[cal = esstix]{mathalpha}
+\usefonttheme{serif}
+
+\addbibresource{referensi.bib}
+
+\setbeamercolor{background canvas}{bg=BrickRed!25!White}
+\newcommand{\emp}[1]{\textcolor{Blue}{#1}}
+
+\title{MatNum: Interpolasi dan Ekstrapolasi}
+\author{Fadhlannafis K. K.}
+\date{10122040}
+\begin{document}
+	\begin{frame}[plain]
+		\maketitle
+	\end{frame}
+	\begin{frame}{Catatan}
+		PPT ini saya buat untuk menunjang pembelajaran matematika numerik saya, setelah UTS saya di bawah setengahnya rata-rata (alias kuartil 4). \newline
+		Pembahasan di PPT ini cenderung teoritik. Saya mengambil referensi dari PPT Bu Lena dan dari:
+		\nocite{*}
+		\printbibliography
+	\end{frame}
+	\begin{frame}{Teorema Aproksimasi Weierstrass}
+		Interpolasi dan ekstrapolasi, pada dasarnya, adalah menghampiri fungsi kontinu menggunakan polinom. \newline
+		Untuk itu, kita perlu jaminan bahwa selalu ada polinom yang menghampiri fungsi kontinu tersebut. Untuk fungsi-fungsi di $\mathbb{R}$, kita punya \newline
+		\begin{theorem}[Aproksimasi Weierstrass]
+			Misalkan $(C[a,b],\|\cdot\|_\infty)$ adalah ruang bernorm berisi semua fungsi kontinu di $[a,b]$, dan $\mathbb{P}[a,b]$ adalah himpunan semua polinom di $[a,b]$. Maka $\mathbb{P}[a,b]$ padat di $C[a,b]$ terhadap norm $\|\cdot\|_\infty$.
+		\end{theorem}
+	\end{frame}
+	\begin{frame}{Teorema Aproksimasi Weierstrass}
+		Bukti. Mengikuti \cite{Pugh2015Real}, WLOG misalkan $f\in C[0,1]$ dan definisikan $g(x)=f(x)-(mx+c)$, dengan
+        \begin{align*}
+            m=\frac{f(1)-f(0)}{1}, \text{ dan } c=f(0).
+        \end{align*}
+        Maka $g\in C$ dan $g(0)=0=g(1)$. Tanpa mengurangi keumuman, misalkan $f(0)=0=f(1)$. \newline
+        Perluas $f$ ke $\mathbb{R}$ dengan cara mendefinisikan $f(x)=0$ untuk setiap $x\in\mathbb{R}-[0,1]$. Untuk setiap $n\in\mathbb{N}$, definisikan fungsi
+        \begin{align*}
+            \beta_n(t) = b_n(1-t^2)^n, n\in [-1,1]
+        \end{align*}
+        dengan konstanta $b_n$ dipilih sehingga $\int_{-1}^1 \beta_n(t)dt=1$.
+	\end{frame}
+    \begin{frame}{Teorema Aproksimasi Weierstrass}
+        Untuk $x\in[0,1]$, definisikan
+        \begin{align*}
+            P_n(x) = \int_{-1}^1 f(x+t)\beta_n(t) dt.
+        \end{align*}
+        Akan dibuktikan bahwa $P_n$ adalah polinom dan $P_n(x)\to f(x)$ secara seragam ketika $n\to\infty$. \newline
+        Untuk membuktikan bahwa $P_n$ adalah polinom, dengan peubahan variabel $u=x+t$ didapat
+        \begin{align*}
+            P_n(x) = \int_{x-1}^{x+1}f(u)\beta_n(u-x)du=\int_0^1 f(u)\beta_n(u-x) dx.
+        \end{align*}
+        Karena $\beta_n(u-x)=b_n(1-(u-x)^2)^n$ adalah polinom terhadap $x$ dan nantinya akan dikalikan oleh suatu konstanta, haruslah $P_n(x)$ suatu polinom.
+    \end{frame}
+    \begin{frame}{Teorema Aproksimasi Weierstrass}
+        Sekarang hanya perlu dibuktikan bahwa $P_n\to f$ secara seragam. Per definisi, haruslah
+        \begin{align*}
+            1=\int_{-1}^1 \beta_n(t)dt \geq \int_{-1/\sqrt{n}}^{1/\sqrt{n}} b_n(1-t^2)^n dt \geq b_n \frac{2}{\sqrt{n}}\left(1-\frac{1}{n}\right)^n.
+        \end{align*}
+        Maka karena $\lim (1-1/n)^n = 1/e$, ada suatu konstanta $c$ sehingga untuk setiap $n$,
+        \begin{align*}
+            b_n \leq c\sqrt{n}.
+        \end{align*}
+        Maka jika $\delta\leq|t|\leq 1$ didapat
+        \begin{align*}
+            \beta_n(t) = b_n(1-t^2)^n \leq c\sqrt{n}(1-\delta^2)^n\to 0 \text{ ketika } n\to\infty.
+        \end{align*}
+    \end{frame}
+    \begin{frame}{Teorema Aproksimasi Weierstrass}
+        Misalkan $\varepsilon>0$. Karena $f\in C[a,b]$, haruslah $f$ kontinu seragam di $[a,b]$. Maka, ada suatu $\delta>0$ sehingga $|t|<\delta$ mengakibatkan $|f(x+t)-f(x)|<\varepsilon/2$. Karena $\int_{-1}^{1} \beta_n(u) du = 1$, maka
+        \begin{align*}
+            |P_n(x)-f(x)| &= \left|\int_{-1}^1 (f(x+t)-f(x))\beta_n(t) dt\right| \\
+            &\leq \int_{-1}^1 |f(x+t)-f(x)|\beta_n(t) dt \\
+            = \int_{|t|<\delta} |f(x+t)-f(x)|\beta_n(t) dt &+\int_{|t|\geq\delta} |f(x+t)-f(x)|\beta_n(t) dt.
+        \end{align*}
+        Integral pertama kurang dari $\varepsilon/2$, dan integral kedua kurang dari $\varepsilon/2$ ketika $n$ besar. Maka $P_n\to f$ secara seragam. $\blacksquare$
+    \end{frame}
+    \begin{frame}{Masalah Interpolasi}
+        Misalkan $V$ ruang bernorm di $\mathbb{K}$, $V'$ ruang dual dari $V$, dan $V_n$ adalah subruang dari $V$ berdimensi $n$, dengan basis $\{v_1,v_2,\dots,v_n\}$. \newline
+        Kita bisa menulis permasalahan interpolasi sebagai berikut. Misalkan $L_i\in V'$, $1\leq i\leq n$, adalah fungsional linear yang kontinu. Jika diberikan $b_i\in\mathbb{K}$, tentukan $u_n\in V_n$ sehingga untuk setiap $i$, berlaku
+        \begin{align*}
+            L_iu_n = b_i.
+        \end{align*}
+        Kondisi tersebut disebut sebagai \emp{syarat interpolasi}. Sekarang hanya perlu dijamin bahwa suatu permasalahan interpolasi memiliki solusi jika memenuhi suatu kondisi.
+    \end{frame}
+    \begin{frame}{Masalah Interpolasi}
+        \begin{theorem}
+            Pernyataan berikut ekuivalen:
+            \begin{enumerate}
+                \item Suatu masalah interpolasi memiliki solusi tunggal.
+                \item Fungsional-fungsional $L_1,L_2,\dots,L_n$ bebas linear di $V_n$.
+                \item Satu-satunya elemen $u_n\in V_n$ yang memenuhi $L_iu_n=0$ untuk setiap $i$ adalah $u_n=0$.
+                \item Untuk setiap barisan $\{b_i\}_{i=1}^n$, ada tepat satu $u_n\in V_n$ sehingga $L_1u_n=b_i$.
+            \end{enumerate}
+        \end{theorem}
+        Bukti. Dari ALE. $\blacksquare$
+    \end{frame}
+    \begin{frame}{Masalah Interpolasi}
+        Maka untuk suatu $u\in V$, bisa didefinisikan penginterpolasi $u_n = \sum_{i=1}^n a_iv_i$ di $V_n$ yang memenuhi
+        \begin{align*}
+            L_iu_n = L_iu, i\in[1,n].
+        \end{align*}
+        Koefisien-koefisien $\{a_i\}_{i=1}^n$ bisa ditentukan dari SPL
+        \begin{align*}
+            \begin{bmatrix}
+                L_1v_1 & \cdots & L_1v_n \\
+                \vdots & \ddots & \vdots \\
+                L_nv_1 & \cdots & L_nv_n
+            \end{bmatrix}
+            \begin{bmatrix}
+                a_1 \\ \vdots \\ a_n
+            \end{bmatrix}=
+            \begin{bmatrix}
+                L_1u \\ \vdots \\ L_nu
+            \end{bmatrix}
+        \end{align*}
+        yang memiliki solusi tunggal jika fungsional-fungsional $L_1,\dots,L_n$ bebas linear terhadap $V_n$.
+    \end{frame}
+    \begin{frame}{Metode Interpolasi 1: Lagrange}
+        Metode interpolasi Lagrange didasari pada masalah interpolasi di $V=C[a,b]$, dan $V_{n+1}=\mathbb{P}_n$. Misalkan $a\leq x_0 < x_1 < \cdots < x_n \leq b$. Jika $f\in V$, maka penginterpolasi Lagrange dari $f$ didefinisikan oleh kondisi $p_n(x_i)=f(x_i)$, $p_n\in V_{n+1}$, $0\leq i\leq n$. Pilih $v_j(x)=x^j$ sebagai basis dari $V_{n+1}$ dan fungsional linear interpolasinya adalah $L_if = f(x_i)$. Maka koefisien-koefisien dari $p_n$ bisa ditentukan dari SPL
+        \begin{align}
+            \begin{bmatrix}
+                1 & x_0 & \cdots & x_0^n \\
+                1 & x_1 & \cdots & x_1^n \\
+                \vdots & \vdots & \ddots & \vdots \\
+                1 & x_n & \cdots & x_n^n
+            \end{bmatrix}
+            \begin{bmatrix}
+                a_0 \\ a_1 \\ \vdots \\ a_n
+            \end{bmatrix} = 
+            \begin{bmatrix}
+                f(x_0) \\ f(x_1) \\ \vdots \\ f(x_n)
+            \end{bmatrix}.
+        \end{align}
+    \end{frame}
+    \begin{frame}{Metode Interpolasi 1: Lagrange}
+        Matriks
+        \begin{align*}
+            L =
+            \begin{bmatrix}
+                1 & x_0 & \cdots & x_0^n \\
+                1 & x_1 & \cdots & x_1^n \\
+                \vdots & \vdots & \ddots & \vdots \\
+                1 & x_n & \cdots & x_n^n
+            \end{bmatrix}
+        \end{align*}
+        disebut \emph{matriks Vandermonde}. Matriks ini memiliki determinan $\prod_{j>i}(x_j-x_i)$ dan invers
+        \begin{align*}
+            L^{-1} =  
+            \begin{bmatrix}
+                L_{00} & L_{01} & \cdots & L_{0n} \\
+                L_{10} & L_{11} & \cdots & L_{1n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                L_{n1} & L_{n2} & \cdots & L_{nn}
+            \end{bmatrix},
+        \end{align*}
+        dengan $L_{ij} = \det(L)^{-1}(-1)^{i}\sum_{p_0<p_1<\cdots<p_{n-i}}\prod_{q=0,p_q\neq i}^{n-j}x_{p_i}$.
+    \end{frame}
+    \begin{frame}{Metode Interpolasi 1: Lagrange}
+        Maka,
+        \begin{align*}
+            \det(L_iv_j)_{(n+1)\times(n+1)} = \prod_{j>i}(x_j-x_i)\neq 0,
+        \end{align*}
+        jadi ada secara tunggal polinom interpolasi Lagrange. Lebih lanjut, dengan cara mengalikan inverse matriks koefisien ke persamaan \theequation, didapat
+        \begin{align*}
+            \begin{bmatrix}
+                a_0 \\ a_1 \\ \vdots \\ a_n
+            \end{bmatrix} = 
+            \begin{bmatrix}
+                L_{11} & L_{12} & \cdots & L_{1n} \\
+                L_{21} & L_{22} & \cdots & L_{2n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                L_{n1} & L_{n2} & \cdots & L_{nn}
+            \end{bmatrix}
+            \begin{bmatrix}
+                f(x_0) \\ f(x_1) \\ \vdots \\ f(x_n)
+            \end{bmatrix}.
+        \end{align*}
+    \end{frame}
+    \begin{frame}{Metode Interpolasi 1: Lagrange}
+        Dari hal tersebut, kita sudah membuktikan bahwa
+        \begin{theorem}[Interpolasi Lagrange]
+            Misalkan $n\in\mathbb{N}$, $x_0,x_1,\dots,x_n$ adalah bilangan real berbeda dan misalkan $y_0,y_1,\dots,y_n$ adalah bilangan real. Maka ada secara tunggal polinom $p_n\in\mathbb{P}_n$ sehingga $p_n(x_i)=y_i$ untuk setiap $i$.
+        \end{theorem}
+        Dengan perhitungan langsung, polinom $p_n$ yang dimaksud adalah
+        \begin{align*}
+            p_n(x) = \sum_{i=0}^{n} y_i\phi_i(x) \text{, dengan } \phi_i(x)=\prod_{j\neq i} \frac{x-x_i}{x_j-x_i}.
+        \end{align*}
+        Polinom ini disebut sebagai \emp{polinom Lagrange}. Fungsi-fungsi $\phi_i$ membentuk basis bagi $\mathbb{P}_n$, dan disebut sebagai \emp{fungsi basis Lagrange}.
+    \end{frame}
+    \begin{frame}{Metode Interpolasi 1: Lagrange}
+        Tentunya, sebagai suatu metode numerik, metode interpolasi Lagrange memiliki galat. Galat dari metode ini diberikan dari teorema berikut.
+        \begin{theorem}
+            Misalkan $f\in C^{n+1}[a,b]$. Maka ada suatu titik $\xi_x$ dengan $\min_i\{x_i,x\} < \xi_x < \max_i\{x_i,x\}$ sehingga
+            \begin{align*}
+                f(x)-p_n(x) = \frac{\omega_n(x)}{(n+1)!}f^{(n+1)}(\xi_x), \text{ } \omega_n(x)=\prod_{i=0}^n (x-x_i)
+            \end{align*}
+        \end{theorem}
+        Bukti. Asumsikan $x\neq x_i$. Definisikan $E(x)=f(x)-p_n(x)$. Tinjau fungsi
+        \begin{align*}
+            g(t) = E(t) - \frac{\omega_n(t)}{\omega_n(x)}E(x).
+        \end{align*}
+    \end{frame}
+    \begin{frame}{Metode Interpolasi 1: Lagrange}
+        Terlihat bahwa $g(t)$ memiliki $n+2$ buah akar, yaitu $x,x_0,x_1,\dots,x_n$. Dari Teorema Nilai Rata-rata, didapat $g^{(n+1)}(t)$ memiliki 1 buah akar $\xi_x\in(\min_i\{x_i,x\},\max_i\{x_i,x\})$. Maka
+        \begin{align*}
+            0 = g^{(n+1)}(\xi_x) = f^{(n+1)}(\xi_x) - \frac{(n+1)!}{\omega_n(x)}E(x),
+        \end{align*}
+        dan hasil terbukti. $\blacksquare$ \newline
+    \end{frame}
+    \begin{frame}{Metode Interpolasi 1: Lagrange}
+        Contoh: Diberikan dua buah titik $(1;0)$ dan $(6;1.791759469)$. Gunakan polinom interpolasi Lagrange derajat satu untuk menaksir nilai $f(2)$, jika diketahui nilai eksak dari $f(2)=0.6931471806$. \newline
+        Pada soal ini, $x_0=1, x_1=6$ dan $f(x_0)=0, f(x_1)=1.791759469$. Dengan mensubstitusikan data ini pada definisi polinom Lagrange diperoleh:
+        \begin{align*}
+            p_1(x) &= 0\frac{x-6}{1-6} + 1.791759469\frac{x-1}{6-1} \\ &= 0.3583518938x-0.3583518938.
+        \end{align*}
+        Dengan demikian, $f(2)\approx p_1(2) = 0.3583518938$, dengan galat $E_1 = 0.6931471806-0.3583518938 = 0.3347952868$.
+    \end{frame}
+    \begin{frame}{Metode Interpolasi 1: Lagrange}
+        Contoh: Diberikan tiga buah titik $(1;0)$, $(6;1.791759469)$, $(4;1.386294361)$. Gunakan polinom interpolasi Lagrange derajat dua untuk menaksir nilai $f(2)$. \newline
+        Pada soal ini, $x_0=1, x_1=6, x_2=4$ dan $f(x_0)=0, f(x_1)=1.791759469$, $f(x_2) = 1.386294361$. Dengan mensubstitusikan data ini pada definisi polinom Lagrange diperoleh:
+        \begin{align*}
+            p_1(x) &= 0\frac{(x-6)(x-4)}{(1-6)(1-4)} + 1.791759469\frac{(x-1)(x-4)}{(6-1)(6-4)} \\ &+ 1.386294361\frac{(x-1)(x-6)}{(4-1)(4-6)} \\ &= 0.1791759479(x-1)(x-4)-0.2310490602(x-1)(x-6).
+        \end{align*}
+        Dengan demikian, $f(2)\approx p_2(2) = 0.5658443470$, dengan galat $E_1 = 0.6931471806-0.5658443470 = 0.1273028336$.
+    \end{frame}
+    \begin{frame}{Metode Interpolasi 2: Newton}
+        Untuk metode interpolasi ini, dengan \textit{setting} yang sama, definisikan
+        \begin{align*}
+            L_iv_j = \begin{cases}
+                v_j(x_i) & \text{, jika } i\leq j, \\
+                0 & \text{, jika } i>j.
+            \end{cases}
+        \end{align*}
+        Maka masalah interpolasi menjadi
+        \begin{align*}
+            \begin{bmatrix}
+                1 & 0 & 0 & \cdots & 0 \\
+                1 & x_1 & 0 & \cdots & 0 \\
+                1 & x_2 & x_2^2 & \cdots & 0 \\
+                \vdots & \vdots & \vdots & \ddots & \vdots \\
+                1 & x_n & x_n^2 & \cdots & x_n^n
+            \end{bmatrix}
+        \end{align*}
+    \end{frame}
+\end{document}
