@@ -1,0 +1,51 @@
+\documentclass[xcolor={dvipsnames}, 9pt]{beamer}
+\usetheme{default}
+\usepackage{amsmath, amsfonts, tikz, xcolor, biblatex}
+\usepackage[cal = esstix]{mathalpha}
+\usefonttheme{serif}
+
+\addbibresource{referensi.bib}
+
+\setbeamercolor{background canvas}{bg=BrickRed!25!White}
+\renewcommand{\emph}[1]{\textcolor{Blue}{#1}}
+
+\title{MatNum: Masalah Nilai Batas}
+\author{Fadhlannafis K. K., Muhammad Ariq Fakhri, Muhammad Arif Wibisono}
+\date{10122040, 10122076, 10122108}
+\begin{document}
+	\begin{frame}[plain]
+		\maketitle
+	\end{frame}
+	\begin{frame}{Catatan}
+		%PPT ini saya buat untuk menunjang pembelajaran matematika numerik saya, setelah UTS saya di bawah setengahnya rata-rata (alias kuartil 4). \newline
+		Pembahasan di PPT ini cenderung teoritik. Kami mengambil referensi dari PPT Bu Lena dan dari:
+		\nocite{*}
+		\printbibliography
+	\end{frame}
+	\begin{frame}{Pengantar}
+		Suatu \emph{masalah nilai batas} adalah persamaan diferensial (dalam slides ini hanya yang biasa) dengan orde dua atau lebih, sehingga solusi $u$ memenuhi syarat batas
+		\begin{align*}
+			u(a) = A, u(b) = B.
+		\end{align*}
+		Untuk menyelesaikan masalah nilai batas secara numerik, ada dua metode:
+		\begin{enumerate}
+			\item Metode Galerkin (khususnya metode beda hingga),
+			\item Metode Tebakan/\textit{Shooting} Linear.
+		\end{enumerate}
+	\end{frame}
+	\begin{frame}{Metode Beda Hingga: Pengantar}
+		Pada dasarnya, metode beda hingga ingin mendekati solusi analitik dengan polinom piecewise. Untuk membangun metode beda hingga, di slides ini akan digunakan \emph{prinsip Galerkin}. Sebelum itu, diperlukan beberapa definisi. \\
+		\begin{definition}[Ruang $L^2$]
+			Misalkan $a,b\in\mathbb{R}, a<b$. \emph{Ruang $L^2(a,b)$} didefinisikan sebagai himpunan semua fungsi $v:[a,b]\to\mathbb{R}$ dengan \emph{norm} yang didefinisikan sebagai
+			\begin{align*}
+				\|v\|_2 = \|v\|_{L^2(a,b)} = \left(\int_{a}^{b} |v(x)|^2 dx\right)^{1/2} < \infty.
+			\end{align*}
+		\end{definition}
+		\begin{definition}[Ruang Sobolev]
+			Misalkan $k\in\mathbb{N}$, dan $a,b\in\mathbb{R}, a<b$. Kita definisikan \emph{Ruang Sobolev} $H^k(a,b)$ sebagai himpunan semua fungsi $v:[a,b]\to\mathbb{R}$ sehingga $v$ dan turunan-turunannya sampai orde ke $k-1$ kontinu absolut di $[a,b]$ dan $v^{(k)}\in L^2(a,b)$, dan norm
+			\begin{align*}
+				\|v\|_{H^k(a,b)} = \left(\sum_{m=0}^{k}\|v^{(m)}\|^2_{L^2(a,b)}\right)^{1/2}
+			\end{align*}
+		\end{definition}
+	\end{frame}
+\end{document}
