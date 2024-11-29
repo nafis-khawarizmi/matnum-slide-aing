@@ -64,7 +64,7 @@
 		\end{definition}
 	\end{frame}
 	\begin{frame}{Metode Beda Hingga: Konstruksi}
-		Di sini, akan ditinjau konstruksi metode Galerkin pada ruang Hilbert $V$. Bisa dibuktikan bahwa ruang $L^2$ dan ruang Sobolev adalah ruang Hilbert. Maka, konstruksi yang ada di sini adalah perumuman dari metode beda hingga. \par
+		Di sini, pertama akan ditinjau konstruksi metode Galerkin pada ruang Hilbert $V$, mengikuti \cite{Han2009Theoretical}. Bisa dibuktikan bahwa ruang $L^2$ dan ruang Sobolev adalah ruang Hilbert. Maka, konstruksi yang ada di sini adalah perumuman dari metode beda hingga. \par
 		Misalkan $V$ adalah ruang Hilbert, $a(\cdot,\cdot):V\times V\to \mathbb{R}$ adalah fungsi yang linear terhadap kedua argumennya (disebut \emph{bilinear}), dan $l\in V'$. Kita akan tinjau masalah
 		\begin{align}\label{fdm_cons1}
 			u\in V, \, a(u,v) = l(v) \, \forall v\in V,
@@ -109,11 +109,11 @@
         \end{align*}
         Masalah ini bisa ditulis sebagai
         \begin{align}\label{weakform}
-            \mathcal{I}(w) = \frac{1}{2}\int_a^b (p(x)(w')^2+r(x)w^2) dx - \int_a^b f(x)w(x)dx
+            \mathcal{I}(u) = \frac{1}{2}\int_a^b (p(x)(u')^2+r(x)u^2) dx - \int_a^b f(x)u(x)dx
         \end{align}
-        dengan $w\in H^1_E(a,b)$, dan kita tinjau masalah optimisasi
+        dengan $u\in H^1_E(a,b)$, dan kita tinjau masalah optimisasi
         \begin{align}\label{rayleighritz}
-            \min_{w\in H^1_E(a,b)} \mathcal{I}(w).
+            \min_{u\in H^1_E(a,b)} \mathcal{I}(u).
         \end{align}
         yang disebut sebagai \emph{prinsip Rayleigh-Ritz}.
     \end{frame}
@@ -123,8 +123,20 @@
            \mathcal{A}(w,v) = \int_a^b (p(x)w'(x)v'(x)+r(x)w(x)v(x)) dx
        \end{align*}
        adalah form bilinear yang simetrik. Akibatnya, kita bisa tulis \eqref{weakform} sebagai
-       \begin{align}
-           \mathcal{I}(w) = \frac{1}{2}\mathcal{A}(w,w) - \langle f,w\rangle_{L^2(a,b)}
+       \begin{align}\label{weakform2}
+           \mathcal{I}(w) = \frac{1}{2}\mathcal{A}(w,w) - \langle f,w\rangle_{L^2(a,b)}, \, w\in H^1_E(a,b).
        \end{align}
+       Dengan formulasi seperti ini, kita punya teorema.
+       \begin{theorem}[Prinsip Galerkin]
+           Suatu fungsi $u\in H^1_E(a,b)$ meminimumkan $\mathcal{I}$ di $H^1_E(a,b)$ jika dan hanya jika
+           \begin{align}\label{galerkin}
+               \mathcal{A}(u,v) = \langle f,v\rangle_{L^2(a,b)} \, \forall v\in H^1_0(a,b).
+           \end{align}
+       \end{theorem}
+       Buktinya dapat dibaca di \cite{Süli2003Introduction}. \newline
+       Tentunya mencari solusi untuk masalah \eqref{weakform} juga sulit. Maka, kita bisa gunakan prinsip Galerkin yang sudah didefinisikan sebelumnya.
+    \end{frame}
+    \begin{frame}{Metode Beda Hingga: Konstruksi}
+        
     \end{frame}
 \end{document}
