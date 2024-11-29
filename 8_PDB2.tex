@@ -93,6 +93,38 @@
 	\end{frame}
 	\begin{frame}{Metode Beda Hingga: Konstruksi}
 		Tentunya solusi $u_n$ secara umum akan berbeda dari $u$. Agar solusi lebih akurat, bisa ditentukan solusi $u_N$ di $V_N\subset V$ sehingga $N>n$. Maka, untuk suatu barisan subruang $V_{n_1} \subset V_{n_2} \subset \cdots \subset V$, kita bisa hitung suatu barisan solusi $u_{n_i}\in V_{n_i}$. Prosedur ini disebut \emph{metode Galerkin}. \newline
-		Sekarang kita akan tinjau masalah \eqref{fdm_cons1} di ruang Sobolev $H^2(a,b)$.
+		Sekarang kita akan tinjau masalah \eqref{fdm_cons1} di ruang Sobolev. Sebelum itu, perlu dikenalkan
+        \begin{definition}
+            \begin{enumerate}
+                \item Misalkan $A,B\in\mathbb{R}$. Kita definisikan $H^1_E(a,b)$ sebagai himpunan semua fungsi $v\in H^1(a,b)$ sehingga $v(a)=A, v(b)=B$.
+                \item Kita definisikan $H^1_0(a,b)$ sebagai himpunan semua fungsi $v\in H^1(a,b)$ sehingga $v(a)=v(b)=0$.
+            \end{enumerate}
+        \end{definition}
 	\end{frame}
+    \begin{frame}{Metode Beda Hingga: Konstruksi}
+        Kita tinjau masalah nilai batas
+        \begin{align*}
+            -\frac{d}{dx}\left(p(x)\frac{du}{dx}\right) + &q(x)\frac{du}{dx} + r(x)u = f(x), \, a<x<b, \\
+            &u(a) = A, u(b) = B.
+        \end{align*}
+        Masalah ini bisa ditulis sebagai
+        \begin{align}\label{weakform}
+            \mathcal{I}(w) = \frac{1}{2}\int_a^b (p(x)(w')^2+r(x)w^2) dx - \int_a^b f(x)w(x)dx
+        \end{align}
+        dengan $w\in H^1_E(a,b)$, dan kita tinjau masalah optimisasi
+        \begin{align}\label{rayleighritz}
+            \min_{w\in H^1_E(a,b)} \mathcal{I}(w).
+        \end{align}
+        yang disebut sebagai \emph{prinsip Rayleigh-Ritz}.
+    \end{frame}
+    \begin{frame}{Metode Beda Hingga: Konstruksi}
+       Perhatikan bahwa
+       \begin{align*}
+           \mathcal{A}(w,v) = \int_a^b (p(x)w'(x)v'(x)+r(x)w(x)v(x)) dx
+       \end{align*}
+       adalah form bilinear yang simetrik. Akibatnya, kita bisa tulis \eqref{weakform} sebagai
+       \begin{align}
+           \mathcal{I}(w) = \frac{1}{2}\mathcal{A}(w,w) - \langle f,w\rangle_{L^2(a,b)}
+       \end{align}
+    \end{frame}
 \end{document}
