@@ -11,8 +11,8 @@
 \renewcommand{\emph}[1]{\textcolor{Blue}{#1}}
 
 \title{MatNum: Masalah Nilai Batas}
-\author{Fadhlannafis K. K., Muhammad Ariq Fakhri, Muhammad Arif Wibisono}
-\date{10122040, 10122076, 10122108}
+\author{Fadhlannafis K. K., Gema Nadiku Pantouw, Muhammad Ariq Fakhri, Muhammad Arif Wibisono}
+\date{10122040, 10122066, 10122076, 10122108}
 \begin{document}
 	\begin{frame}[plain]
 		\maketitle
@@ -140,8 +140,8 @@
            \mathcal{I}(w) = \frac{1}{2}\mathcal{A}(w,w) - \langle f,w\rangle_{L^2(a,b)}, \, w\in H^1_E(a,b).
        \end{align}
        Dengan formulasi seperti ini, kita punya teorema.
-       \begin{theorem}[Prinsip Galerkin]
-           Suatu fungsi $u\in H^1_E(a,b)$ meminimumkan $\mathcal{I}$ di $H^1_E(a,b)$ jika dan hanya jika
+       \begin{theorem}[Ekuivalensi Prinsip Rayleigh-Ritz]
+           Suatu fungsi $u\in H^1_E(a,b)$ meminimumkan $\mathcal{I}$ di $H^1_E(a,b)$ jika dan hanya jika $u$ memenuhi \emph{prinsip Galerkin}
            \begin{align}\label{galerkin}
                \mathcal{A}(u,v) = \langle f,v\rangle_{L^2(a,b)} \, \forall v\in H^1_0(a,b).
            \end{align}
@@ -150,6 +150,21 @@
        Tentunya mencari solusi untuk masalah \eqref{weakform} juga sulit. Maka, kita bisa gunakan metode Galerkin yang sudah didefinisikan sebelumnya.
     \end{frame}
     \begin{frame}{Metode Beda Hingga: Konstruksi}
-        Kita batasi masalah nilai batas \eqref{mnb} pada subruang berdimensi-$n$ $S_E^n\subset H_E^1(a,b)$. Salah satu cara paling mudah 
+        Kita batasi masalah nilai batas \eqref{mnb} pada subruang berdimensi-$n>2$ $S_E^n\subset H_E^1(a,b)$. Salah satu cara paling mudah adalah dengan mendefinisikan fungsi $\psi\in H_E^1(a,b)$, misalkan
+		\begin{align*}
+			\psi(x) = \frac{B-A}{b-a}(x-a)+A
+		\end{align*}
+		dan fungsi-fungsi $\phi_j\in H_0^1(a,b), j = 1,\dots,n-1$ yang bebas linear, dan mendefinisikan
+		\begin{align*}
+			S_E^n = \{v_n\in H_E^1(a,b) : v_n = \psi + \sum_{i=1}^{n-1}a_i\phi_i, a_i\in\mathbb{R}\}.
+		\end{align*}
+		Kita tinjau suatu aproksimasi dari masalah Rayleigh-Ritz:
+		\begin{align*}
+			\min_{w_n \in S_E^n} \mathcal{I}(w_n),
+		\end{align*}
+		dan tentunya kita punya teorema yang merupakan aproksimasi dari Prinsip Galerkin. Hal tersebut kita sebut sebagai \emph{metode Galerkin}.
+    \end{frame}
+    \begin{frame}{Metode Beda Hingga: Konstruksi}
+    	
     \end{frame}
 \end{document}
