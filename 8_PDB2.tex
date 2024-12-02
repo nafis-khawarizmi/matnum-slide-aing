@@ -1,6 +1,7 @@
 \documentclass[xcolor={dvipsnames}, 9pt]{beamer}
 \usetheme{default}
-\usepackage{amsmath, amsfonts, tikz, xcolor, biblatex}
+\usepackage{amsmath, amsfonts, tikz, xcolor}
+\usepackage[backend=bibtex]{biblatex}
 \usepackage[cal = esstix]{mathalpha}
 \usefonttheme{serif}
 
@@ -51,7 +52,7 @@
 	\end{frame}
 	\begin{frame}{Metode Beda Hingga: Pengantar}
 		\begin{definition}[Ruang Sobolev]
-			Misalkan $k\in\mathbb{N}$, dan $a,b\in\mathbb{R}, a<b$. Kita definisikan \emph{Ruang Sobolev} $H^k(a,b)$ sebagai himpunan semua fungsi $v:[a,b]\to\mathbb{R}$ sehingga $v$ dan turunan-turunannya sampai orde ke $k-1$ kontinu absolut di $[a,b]$ dan $v^{(k)}\in L^2(a,b)$, dan hasil kali dalam
+			Misalkan $k\in\mathbb{N}$, dan $a,b\in\mathbb{R}, a<b$. Kita definisikan \emph{Ruang Sobolev} $H^k(a,b)$ sebagai himpunan semua fungsi $v:[a,b]\to\mathbb{R}$ sehingga $v$ dan turunan-turunannya sampai orde ke $k-1$ kontinu absolut di $[a,b]$ dan $v^{(k)}\in L^2(a,b)$, yang dilengkapi hasil kali dalam
 			\begin{align*}
 				\langle u,v\rangle_{H^k(a,b)} = \left(\sum_{m=0}^{k}\langle u^{(m)},v^{(m)}\rangle_{L^2(a,b)}\right)^{1/2}.
 			\end{align*}
@@ -74,7 +75,18 @@
 			|a(u,v)|&\leq M\|u\|_V\|v\|_V \, \forall u,v\in V, \label{fdm_cons2} \\
 			a(v,v) &\geq c_0\|v\|_V^2 \, \forall v\in V. \label{fdm_cons3}
 		\end{align}
-		untuk suatu $M,c_0>0$. Bisa dibuktikan bahwa masalah \eqref{fdm_cons1} memiliki solusi tunggal. Tapi, secara umum, sulit menyelesaikan masalah tersebut karena $V$ biasanya berdimensi tak hingga. 
+		untuk suatu $M,c_0>0$.  
+	\end{frame}
+	\begin{frame}{Metode Beda Hingga: Konstruksi}
+		Teorema berikut menjamin bahwa masalah \eqref{fdm_cons1} memiliki solusi tunggal. 
+		\begin{theorem}[Lemma Lax-Milgram]
+			Misalkan $V$ adalah ruang Hilbert, $a(\cdot,\cdot)$ adalah form bilinear terbatas dan $V$-eliptik di $V$, dan $l\in V'$. Maka ada solusi tunggal dari masalah
+			\begin{align}\label{laxmilgram}
+				u\in V, a(u,v)=l(v) \, \forall v\in V.
+			\end{align}
+		\end{theorem}
+		Bukti. Memerlukan beberapa teorema yang sudah sangat jauh di luar konteks slide ini. Tetapi, idenya adalah menyadari bahwa \eqref{laxmilgram} ekuivalen dengan suatu masalah nilai tetap, lalu gunakan teorema-teorema yang sangat jauh tersebut. $\square$ \newline
+		Tapi, secara umum, sulit menyelesaikan masalah tersebut karena $V$ biasanya berdimensi tak hingga.
 	\end{frame}
 	\begin{frame}{Metode Beda Hingga: Konstruksi}
 		Dengan asumsi \eqref{fdm_cons2}, \eqref{fdm_cons3}, kita batasi masalah \eqref{fdm_cons1} ke subruang $V_n\subset V$ yang berdimensi $n$, yaitu
@@ -103,11 +115,12 @@
 	\end{frame}
     \begin{frame}{Metode Beda Hingga: Konstruksi}
         Kita tinjau masalah nilai batas
-        \begin{align*}
-            -\frac{d}{dx}\left(p(x)\frac{du}{dx}\right) + &q(x)\frac{du}{dx} + r(x)u = f(x), \, a<x<b, \\
-            &u(a) = A, u(b) = B.
-        \end{align*}
-        Masalah ini bisa ditulis sebagai
+        \begin{gather}
+            -\frac{d}{dx}\left(p(x)\frac{du}{dx}\right) + q(x)\frac{du}{dx} + r(x)u = f(x), a<x<b, \label{mnb} \\
+            u(a) = A, u(b) = B \nonumber \\
+            p\in C^1[a,b], r\in C[a,b], f\in L^2[a,b], p(x)\geq c_0>0, r(x)\geq 0. \nonumber
+        \end{gather}
+        Untuk menyelesaikan masalah tersebut, kita definisikan
         \begin{align}\label{weakform}
             \mathcal{I}(u) = \frac{1}{2}\int_a^b (p(x)(u')^2+r(x)u^2) dx - \int_a^b f(x)u(x)dx
         \end{align}
@@ -115,14 +128,14 @@
         \begin{align}\label{rayleighritz}
             \min_{u\in H^1_E(a,b)} \mathcal{I}(u).
         \end{align}
-        yang disebut sebagai \emph{prinsip Rayleigh-Ritz}.
+        yang disebut sebagai \emph{prinsip Rayleigh-Ritz}. Nanti akan dibuktikan bahwa fungsi yang menjadi solusi masalah tersebut juga menyelesaikan masalah nilai batas di awal.
     \end{frame}
     \begin{frame}{Metode Beda Hingga: Konstruksi}
-       Perhatikan bahwa
+       Definisikan suatu form bilinear simetrik di $H^1(a,b)$:
        \begin{align*}
-           \mathcal{A}(w,v) = \int_a^b (p(x)w'(x)v'(x)+r(x)w(x)v(x)) dx
+           \mathcal{A}(w,v) = \int_a^b (p(x)w'(x)v'(x)+r(x)w(x)v(x)) dx.
        \end{align*}
-       adalah form bilinear yang simetrik. Akibatnya, kita bisa tulis \eqref{weakform} sebagai
+       Akibatnya, kita bisa tulis \eqref{weakform} sebagai
        \begin{align}\label{weakform2}
            \mathcal{I}(w) = \frac{1}{2}\mathcal{A}(w,w) - \langle f,w\rangle_{L^2(a,b)}, \, w\in H^1_E(a,b).
        \end{align}
@@ -133,10 +146,10 @@
                \mathcal{A}(u,v) = \langle f,v\rangle_{L^2(a,b)} \, \forall v\in H^1_0(a,b).
            \end{align}
        \end{theorem}
-       Buktinya dapat dibaca di \cite{Süli2003Introduction}. \newline
-       Tentunya mencari solusi untuk masalah \eqref{weakform} juga sulit. Maka, kita bisa gunakan prinsip Galerkin yang sudah didefinisikan sebelumnya.
+       Bukti. Dijamin dari Lemma Lax-Milgram. $\square$ \newline
+       Tentunya mencari solusi untuk masalah \eqref{weakform} juga sulit. Maka, kita bisa gunakan metode Galerkin yang sudah didefinisikan sebelumnya.
     \end{frame}
     \begin{frame}{Metode Beda Hingga: Konstruksi}
-        
+        Kita batasi masalah nilai batas \eqref{mnb} pada subruang berdimensi-$n$ $S_E^n\subset H_E^1(a,b)$. Salah satu cara paling mudah 
     \end{frame}
 \end{document}
