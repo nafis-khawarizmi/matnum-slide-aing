@@ -41,9 +41,24 @@
 			\item Metode Galerkin (khususnya metode beda hingga).
 		\end{enumerate}
 	\end{frame}
-	\begin{frame}{Metode Tebakan Linear}
-		
+	\begin{frame}{Metode Tebakan Linear: Pengantar}
+        ntar dibenerin \\
+	   Kita tinjau masalah nilai batas linear:
+        \begin{gather}
+            -\frac{d}{dx}\left(p(x)\frac{du}{dx}\right) + q(x)\frac{du}{dx} + r(x)u = f(x), a<x<b, \label{mnb} \\
+            u(a) = A, u(b) = B \nonumber \\
+            p\in C^1[a,b], r\in C[a,b], f\in L^2[a,b], p(x)\geq c_0>0, r(x)\geq 0. \nonumber
+        \end{gather}
+       Ide dari metode tebakan linear adalah mendekati masalah \eqref{mnb} dengan suatu masalah nilai awal
+       \begin{gather}
+           -\frac{d}{dx}\left(p(x)\frac{du}{dx}\right) + q(x)\frac{du}{dx} + r(x)u = f(x), a<x<b, \label{mnb} \\
+            u(a) = A, u'(a) = A' \nonumber
+       \end{gather}
+       dengan $A'$ dipilih sedemikian sehingga $u(b)=B$.
 	\end{frame}
+    \begin{frame}{Metode Tebakan Linear: Konstruksi}
+        
+    \end{frame}
 	\begin{frame}{Metode Beda Hingga: Pengantar}
 		kemungkinan salah total, ntar gw bikin t e lax di sini. \newline
 		Pada dasarnya, metode beda hingga ingin mendekati solusi analitik dengan polinom piecewise. Untuk membangun metode beda hingga, di slides ini akan digunakan \emph{prinsip Rayleigh-Ritz} dan \emph{prinsip Galerkin}. Sebelum itu, diperlukan beberapa definisi. \par
@@ -120,7 +135,7 @@
     \begin{frame}{Metode Beda Hingga: Konstruksi}
         Kita tinjau masalah nilai batas
         \begin{gather}
-            -\frac{d}{dx}\left(p(x)\frac{du}{dx}\right) + q(x)\frac{du}{dx} + r(x)u = f(x), a<x<b, \label{mnb} \\
+            -\frac{d}{dx}\left(p(x)\frac{du}{dx}\right) + q(x)\frac{du}{dx} + r(x)u = f(x), a<x<b, \label{mnb2} \\
             u(a) = A, u(b) = B \nonumber \\
             p\in C^1[a,b], r\in C[a,b], f\in L^2[a,b], p(x)\geq c_0>0, r(x)\geq 0. \nonumber
         \end{gather}
