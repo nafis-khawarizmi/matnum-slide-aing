@@ -1,6 +1,6 @@
 \documentclass[xcolor={dvipsnames}, 9pt]{beamer}
 \usetheme{default}
-\usepackage{amsmath, amsfonts, tikz, xcolor}
+\usepackage{amsmath, amsfonts, tikz, xcolor, graphicx}
 \usepackage[backend=bibtex]{biblatex}
 \usepackage[cal = esstix]{mathalpha}
 \usefonttheme{serif}
@@ -93,14 +93,35 @@
     \end{frame}
     \begin{frame}{Metode Tembakan Linear: Kekonvergenan}
     	Tentunya, kekonvergenan metode tembakan linear sangat bergantung pada metode yang digunakan untuk menyelesaikan masalah nilai awal. Dalam pembahasan ini, kita tinjau masalah nilai batas yang lebih umum:
-    	\begin{gather*}
+    	\begin{gather}
     		\vec{y'} = A(x)\vec{y} + \vec{q(x)}, a<x<b \\
-    		B_a\vec{y}(a) + B_b\vec{y}(b) = \vec{B}
-    	\end{gather*}
-    	dengan mengingat bahwa masalah nilai batas orde-$n$ dapat diubah menjadi sistem persamaan diferensial orde 1. Misalkan 
+    		B_a\vec{y}(a) + B_b\vec{y}(b) = \vec{B} \label{genmnb}
+    	\end{gather}
+    	dengan mengingat bahwa masalah nilai batas orde-$n$ dapat diubah menjadi sistem persamaan diferensial orde 1. Maka solusi dari \eqref{genmnb} dapat ditulis sebagai
+        \begin{align*}
+            \vec{y}(x) = Y(x)\vec{s} + \vec{v}(x), a\leq x\leq b
+        \end{align*}
+        dengan $Y(x)$ adalah suatu solusi fundamental, $\vec{s}$ adalah vektor parameter, dan $\vec{v}(x)$ adalah solusi partikular. Kita asumsikan
+        \begin{align*}
+            Y'(x) = A(x)Y, a<x<b, Y(a) = I.
+        \end{align*}
+        Misalkan 
     \end{frame}
     \begin{frame}{Metode Tembakan Linear: Galat}
-    	content...
+    	Sekarang akan ditentukan galat dari metode tembakan. Tentunya, seperti konvergensi, galat dari metode ini sangat bergantung pada metode yang digunakan untuk menyelesaikan masalah nilai awal. Tinjau masalah \eqref{genmnb}. \newline
+        Misalkan $\tau$ adalah toleransi galat untuk penyelesaian masalah nilai awal. Cara paling mudah untuk meminimalisasi galat adalah dengan mengendalikan galat lokal di $\vec{v}(x)$ dan $Y(x)$ sesuai dengan $\tau$, dan menentukan efeknya pada $\vec{y}(x)$. \newilne
+        Asumsikan bahwa setiap solusi numerik dari MNA dicari menggunakan titik-titik
+        \begin{align*}
+            a = x_1 < x_2 < \cdots < x_N < x_{N+1} = b,
+        \end{align*}
+        dan setiap solusi numerik $\{\vec{y}_i\}$ memenuhi
+        \begin{align*}
+            \vec{y}_{i+1} = \Gamma_i\vec{y}_i + \vec{g}_i, i = 1,\dots, N
+        \end{align*}
+        dengan matriks $\Gamma_i$ dan vektor $\vec{g}_i$ ditentukan dari metode numerik yang digunakan untuk menyelesaikan MNA.
+    \end{frame}
+    \begin{frame}{Metode Tembakan Linear: Galat}
+        
     \end{frame}
     \begin{frame}[fragile]{Metode Tembakan Linear: Kode Matlab}
     	Kode Matlab dari metode tembakan linear bisa ditulis sebagai berikut:
@@ -172,9 +193,9 @@
     \end{frame}
     \begin{frame}{Metode Tembakan Linear: Contoh}
     	Dari kode tersebut, didapat grafik:
-    	\begin{center}
-    		\includegraphics[scale=0.4]{linearshooting.pdf}
-    	\end{center}
+    	%\begin{center}
+    	%	\includegraphics[scale=0.4]{linearshooting.pdf}
+    	%\end{center}
     \end{frame}
     \begin{frame}{Metode Beda Hingga: Pengantar}
     	content...
