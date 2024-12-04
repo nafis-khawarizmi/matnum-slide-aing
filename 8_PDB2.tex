@@ -109,19 +109,46 @@
     \end{frame}
     \begin{frame}{Metode Tembakan Linear: Galat}
     	Sekarang akan ditentukan galat dari metode tembakan. Tentunya, seperti konvergensi, galat dari metode ini sangat bergantung pada metode yang digunakan untuk menyelesaikan masalah nilai awal. Tinjau masalah \eqref{genmnb}. \newline
-        Misalkan $\tau$ adalah toleransi galat untuk penyelesaian masalah nilai awal. Cara paling mudah untuk meminimalisasi galat adalah dengan mengendalikan galat lokal di $\vec{v}(x)$ dan $Y(x)$ sesuai dengan $\tau$, dan menentukan efeknya pada $\vec{y}(x)$. \newilne
+        Misalkan $\tau$ adalah toleransi galat untuk penyelesaian masalah nilai awal. Cara paling mudah untuk meminimalisasi galat adalah dengan mengendalikan galat lokal di $\vec{v}(x)$ dan $Y(x)$ sesuai dengan $\tau$, dan menentukan efeknya pada $\vec{y}(x)$. \newline
         Asumsikan bahwa setiap solusi numerik dari MNA dicari menggunakan titik-titik
         \begin{align*}
             a = x_1 < x_2 < \cdots < x_N < x_{N+1} = b,
         \end{align*}
         dan setiap solusi numerik $\{\vec{y}_i\}$ memenuhi
-        \begin{align*}
+        \begin{align}\label{discretescheme}
             \vec{y}_{i+1} = \Gamma_i\vec{y}_i + \vec{g}_i, i = 1,\dots, N
-        \end{align*}
+        \end{align}
         dengan matriks $\Gamma_i$ dan vektor $\vec{g}_i$ ditentukan dari metode numerik yang digunakan untuk menyelesaikan MNA.
     \end{frame}
     \begin{frame}{Metode Tembakan Linear: Galat}
-        
+        \begin{definition}
+        	Kita definisikan $\{Y_i\}$ sehingga $Y_1 = I, Y_{i+1} = \Gamma_iY_i$ sebagai \emph{solusi fundamental diskrit} dari \eqref{discretescheme}, dan \emph{fungsi Gamma diskrit} sebagai
+        	\begin{align}\label{fgd}
+        		G_{ij} = \begin{cases}
+        			Y_i(Q^h)^{-1}B_aY_iY_j^{-1}, & j \leq i \\
+        			-Y_i(Q^h)^{-1}B_bY_{N+1}Y_j^{-1}, & j > i
+        		\end{cases},
+        		1 \leq i, j \leq N,
+        	\end{align}
+        	dengan
+        	\begin{align*}
+        		Q^h = B_a + B_bY_{N+1}.
+        	\end{align*}
+        \end{definition}
+        Maka solusi numerik bentuk MNA dari \eqref{genmnb}, selain memenuhi \eqref{discretescheme}, juga harus memenuhi
+        \begin{align*}
+        	\vec{y}_i(x) = Y_i(x)(Q^h)^{-1}\vec{B} + \sum_{j=1}^{N} G_{ij}\vec{g}_j.
+        \end{align*}
+    \end{frame}
+    \begin{frame}{Metode Tebakan Linear: Galat}
+    	Sekarang misalkan metode numerik yang digunakan untuk menyelesaikan MNA memunculkan galat pemotongan $\frac{\vec{t}_i}{x_{i+1}-x_i}$ di $x_i$. Maka
+    	\begin{align*}
+    		\vec{y}(x_{i+1}) - \vec{y}_{i+1} = \Gamma_i(\vec{y}(x_i)-\vec{y}_i) + \vec{t}_i.
+    	\end{align*}
+    	Akibatnya
+    	\begin{align*}
+    		\vec{y}(x_i) - \vec{y}_i = \sum_{j=1}^N G_{ij}\vec{t}_j.
+    	\end{align*}
     \end{frame}
     \begin{frame}[fragile]{Metode Tembakan Linear: Kode Matlab}
     	Kode Matlab dari metode tembakan linear bisa ditulis sebagai berikut:
@@ -193,9 +220,9 @@
     \end{frame}
     \begin{frame}{Metode Tembakan Linear: Contoh}
     	Dari kode tersebut, didapat grafik:
-    	%\begin{center}
-    	%	\includegraphics[scale=0.4]{linearshooting.pdf}
-    	%\end{center}
+    	\begin{center}
+    		\includegraphics[scale=0.4]{linearshooting.pdf}
+    	\end{center}
     \end{frame}
     \begin{frame}{Metode Beda Hingga: Pengantar}
     	content...
