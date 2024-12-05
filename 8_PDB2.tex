@@ -149,6 +149,25 @@
     	\begin{align*}
     		\vec{y}(x_i) - \vec{y}_i = \sum_{j=1}^N G_{ij}\vec{t}_j.
     	\end{align*}
+    	Persamaan ini menghubungkan galat di $\vec{y}_i$ dengan galat dari MNA.
+    \end{frame}
+    \begin{frame}{Metode Tebakan Linear: Galat}
+    	\begin{theorem}
+    		Asumsikan bleh. Maka ada suatu konstanta $C$ sehingga
+    		\begin{align*}
+    			\|G_{ij}\| \leq C \|G(x_i,x_k)\|, 1\leq i,j \leq N.
+    		\end{align*}
+    	\end{theorem}
+    	Bukti. \newline 
+    	Jika kita tinjau galat per langkah, kita bisa tulis
+    	\begin{align*}
+    		\vec{t}_j = \tau \vec{c}_j(x_{j+1}-x_j), |\vec{c}_j| \approx 1.
+    	\end{align*}
+    	Akibatnya,
+    	\begin{align*}
+    		\vec{y}(x_i) - \vec{y}_i = \tau \sum_{j=1}^{N}G_{ij}(x_{j+1}-x_j)\vec{c}_j
+    	\end{align*}
+    	
     \end{frame}
     \begin{frame}[fragile]{Metode Tembakan Linear: Kode Matlab}
     	Kode Matlab dari metode tembakan linear bisa ditulis sebagai berikut:
