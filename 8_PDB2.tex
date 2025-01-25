@@ -3,6 +3,8 @@
 \usepackage{amsmath, amsfonts, tikz, xcolor, graphicx}
 \usepackage[backend=bibtex]{biblatex}
 \usepackage[cal = esstix]{mathalpha}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
 \usefonttheme{serif}
 
 \addbibresource{referensimnb.bib}
@@ -24,6 +26,7 @@
 		Pembahasan di PPT ini cenderung teoritik. Kami mengambil referensi dari PPT Bu Lena dan dari:
 		\nocite{*}
 		\printbibliography
+		Pustaka utama yang digunakan dalam slides ini adalah \cite{Ascher1995Numerical}.
 	\end{frame}
 	\begin{frame}{Pengantar}
 		Suatu \emph{masalah nilai batas} adalah persamaan diferensial (dalam slides ini hanya yang biasa) dengan orde dua atau lebih, sehingga solusi $u$ memenuhi syarat batas
@@ -43,8 +46,14 @@
 			\item Metode Beda Hingga.
 		\end{enumerate}
 	\end{frame}
+	\begin{frame}{Pengantar}
+		Untuk masalah persamaan diferensial, ada suatu teorema yang menjamin kekonvergenan solusi, yaitu
+		\begin{theorem}[Ekuivalensi Lax]
+			Misalkan suatu masalah persamaan diferensial terdefinisi dengan baik. Maka, suatu metode numerik konsisten dan stabil jika dan hanya jika dia konvergen.
+		\end{theorem}
+		Teorema tersebut tidak akan dibuktikan, karena sudah jauh di luar pembahasan slides ini.
+	\end{frame}
 	\begin{frame}{Metode Tembakan Linear: Pengantar}
-		ntar dibenerin \newline
 		Kita tinjau masalah nilai batas linear:
 		\begin{gather}
 			u''(x) + p(x)u'(x) + q(x)u(x) = r(x), a<x<b, \label{mnb} \\
@@ -122,29 +131,37 @@
 	\begin{frame}{Metode Tembakan Linear: Galat}
 		Untuk melakukan analisis galat, diperlukan beberapa definisi:
 		\begin{definition}
-			Kita definisikan $Y(x,t)$ sebagai suatu fungsi yang memenuhi $Y'(x,t) = A(x)Y(x,t)$ untuk $a<x<b$ dengan turunan terhadap $x$, $Y(t,t) = I$, dan $Y(x) \cong Y(x,a)$ invertibel untuk setiap $x$. Definisikan \emph{fungsi Green} sebagai
-			\begin{align*}
-				G(x,t) = \begin{cases}
-					Y(x)Q^{-1}B_aY(a)Y^{-1}(t) & t\leq x \\
-					-Y(x)Q^{-1}B_bY(b)Y^{-1}(t) & t > x
-				\end{cases}
-			\end{align*}
-			dengan
-			\begin{align*}
-				Q = B_aY(a) + B_bY(b).
-			\end{align*}
+			\begin{enumerate}
+				\item Kita definisikan $Y(x,t)$ sebagai suatu fungsi yang memenuhi $Y'(x,t) = A(x)Y(x,t)$ untuk $a<x<b$ dengan turunan terhadap $x$, $Y(t,t) = I$, dan $Y(x) \cong Y(x,a)$ invertibel untuk setiap $x$. Definisikan \emph{fungsi Green} sebagai
+				\begin{align*}
+					G(x,t) = \begin{cases}
+						Y(x)Q^{-1}B_aY(a)Y^{-1}(t) & t\leq x \\
+						-Y(x)Q^{-1}B_bY(b)Y^{-1}(t) & t > x
+					\end{cases}
+				\end{align*}
+				dengan
+				\begin{align*}
+					Q = B_aY(a) + B_bY(b).
+				\end{align*}
+				\item Definisikan
+				\begin{align*}
+					\kappa_1 = \|YQ^{-1}\|_\infty = \sup_{x\in [a,b]} \|Y(x)Q^{-1}\|, 
+					\kappa_2 = \left\|\int_a^b G(x,t) dt\right\|_\infty
+				\end{align*}
+				Kita sebut suatu masalah nilai batas \emph{well-conditioned} jika $\kappa = \max\{\kappa_1,\kappa_2\}$ nilainya tidak terlalu besar (bergantung pada masalah)
+			\end{enumerate}
 		\end{definition}
 	\end{frame}
 	\begin{frame}{Metode Tembakan Linear: Galat}
 		\begin{definition}
 			Kita definisikan $\{Y_i\}$ sehingga $Y_1 = I, Y_{i+1} = \Gamma_iY_i$ sebagai \emph{solusi fundamental diskrit} dari \eqref{discretescheme}, dan \emph{fungsi Green diskrit} sebagai
-			\begin{align}\label{fgd}
+			\begin{align*}
 				G_{ij} = \begin{cases}
 					Y_i(Q^h)^{-1}B_aY_iY_j^{-1}, & j \leq i \\
 					-Y_i(Q^h)^{-1}B_bY_{N+1}Y_j^{-1}, & j > i
 				\end{cases},
 				1 \leq i, j \leq N,
-			\end{align}
+			\end{align*}
 			dengan
 			\begin{align*}
 				Q^h = B_a + B_bY_{N+1}.
@@ -164,16 +181,13 @@
 		\begin{align*}
 			\vec{y}(x_i) - \vec{y}_i = \sum_{j=1}^N G_{ij}\vec{t}_j.
 		\end{align*}
-		Persamaan ini menghubungkan galat di $\vec{y}_i$ dengan galat dari MNA.
+		Persamaan ini menghubungkan galat di $\vec{y}_i$ dengan galat dari MNA. \newline
+		Dengan beberapa asumsi yang wajar, ada suatu konstanta $C$ sehingga
+		\begin{align*}
+			\|G_{ij}\| \leq C \|G(x_i,x_k)\|, 1\leq i,j \leq N.
+		\end{align*}
 	\end{frame}
 	\begin{frame}{Metode Tembakan Linear: Galat}
-		\begin{theorem}
-			Asumsikan bleh. Maka ada suatu konstanta $C$ sehingga
-			\begin{align*}
-				\|G_{ij}\| \leq C \|G(x_i,x_k)\|, 1\leq i,j \leq N.
-			\end{align*}
-		\end{theorem}
-		Bukti. \newline 
 		Jika kita tinjau galat per langkah, kita bisa tulis
 		\begin{align*}
 			\vec{t}_j = \tau \vec{c}_j(x_{j+1}-x_j), |\vec{c}_j| \approx 1.
@@ -181,13 +195,47 @@
 		Akibatnya,
 		\begin{gather*}
 			\vec{y}(x_i) - \vec{y}_i = \tau \sum_{j=1}^{N}G_{ij}(x_{j+1}-x_j)\vec{c}_j \\
-			\Rightarrow |\vec{y}(x_i) - \vec{y}_i| \leq K\tau \left\|\int_a^b G(x_i,t) dt\right\|.
+			\Rightarrow |\vec{y}(x_i) - \vec{y}_i| \leq K\tau \left\|\int_a^b G(x_i,t) dt\right\| = K\tau\kappa.
 		\end{gather*}
-		Maka secara umum metode tembakan linear akan memberikan galat diskritisasi jika \eqref{genmnb} well-conditioned (dengan kata lain, $\kappa = \left\|\int_a^b G(x_i,t) dt\right\|$ tidak besar).
+		Maka secara umum metode tembakan linear akan memberikan galat diskritisasi jika \eqref{genmnb} well-conditioned.
 	\end{frame}
 	\begin{frame}{Metode Tembakan Linear: Kestabilan}
 		Tentunya, kestabilan metode tembakan linear sangat bergantung pada metode yang digunakan untuk menyelesaikan masalah nilai awal. Asumsikan \eqref{genmnb} well-conditioned, dengan kata lain $\kappa$ kecil. \newline
-		Misalkan $\vec{s}^h$ adalah pendekatan numerik dari $\vec{s}$ untuk MNB \eqref{genmnb}. Karena $Y(x)$ sudah didekati sebelumnya, kita dapat melihat perilaku $Y(x)(\vec{s}^h-\vec{s}$ untuk memperkirakan galat dari pendekatan $\vec{y}(x)$. hal 170 di ebook
+		Misalkan $\vec{s}_h$ adalah pendekatan numerik dari $\vec{s}$ untuk MNB \eqref{genmnb}. Karena $Y(x)$ sudah didekati sebelumnya, kita dapat melihat perilaku $Y(x)(\vec{s}_h-\vec{s})$ untuk memperkirakan galat dari pendekatan $\vec{y}(x)$. Asumsikan ada matriks $E, \tilde{E}$ dengan norm kecil dan suatu vektor satuan $\vec{c}$, sehingga
+		\begin{align*}
+			(B_a+B_bY(b)(I+E))\vec{s}_h = \tilde{\vec{B}} = \hat{\vec{B}} - B_bY(b)\tilde{E}_c
+		\end{align*}
+		dengan
+		\begin{gather*}
+			\hat{\vec{B}} = \vec{B} - B_a\vec{v}(a) - B_b\vec{v}(b).
+		\end{gather*}
+		Dari menyelesaikan MNB, didapat $Q\vec{s} = \hat{\vec{B}}$. Maka
+		\begin{align*}
+			Y(x)(\vec{s}_h-\vec{s}) = -Y(x)Q^{-1}B_bY(b)(E\vec{s}_h+\tilde{E}\vec{c}).
+		\end{align*}
+		Karena kita asumsikan MNB well-conditioned, $\|YQ^{-1}\|$ tidak terlalu besar.
+	\end{frame}
+	\begin{frame}{Metode Tembakan Linear: Kestabilan}
+		Tetapi, karena $E, \tilde{E}$ bisa sebarang matriks dengan norm kecil, bisa saja $Y(b)$ sangat memperbesar $E\vec{s}_h+\tilde{E}\vec{c}$, contohnya ketika $Y(x)$ memiliki elemen eksponensial. \newline
+		Sekarang tinjau masalah \eqref{genmnb} dengan orde $n\geq 2$, dengan $n-v$ buah solusi yang meluruh dan $v\geq 1$ buah solusi yang naik, dan salah satunya naik lebih cepat, dan dengan syarat batas
+		\begin{align*}
+			B_a = \begin{bmatrix}
+				B_{a1} \\ 0
+			\end{bmatrix}, B_b = \begin{bmatrix}
+				0 \\ B_{b2}
+			\end{bmatrix}.
+		\end{align*}
+		Agar masalah seperti itu well-conditioned, haruslah
+		\begin{align*}
+			\text{rank}(B_{a1}) = n-v, \text{rank}(B_{b2}) = v.
+		\end{align*}
+		Jika ada salah satu solusi yang bertumbuh jauh lebih cepat dibandingkan sisanya di $x=b$, secara efektif $\text{rank}(Y(b)) = 1$, akibatnya $B_{b2}Y(b)$ juga rank 1, dan
+		\begin{align*}
+			\text{rank}(Q) = \text{rank}\left(\begin{bmatrix}
+				B_{a1} \\ B_{b2}Y(b)
+			\end{bmatrix}\right) \leq n-v+1.
+		\end{align*}
+		Akibatnya, jika $v>1$, secara efektif rank $Q$ kurang dari $n$, dan $\vec{s}_h$ tidak bisa dijamin akurat.
 	\end{frame}
 	\begin{frame}[fragile]{Metode Tembakan Linear: Kode Matlab}
 		Kode Matlab dari metode tembakan linear bisa ditulis sebagai berikut:
@@ -259,12 +307,21 @@
 	\end{frame}
 	\begin{frame}{Metode Tembakan Linear: Contoh}
 		Dari kode tersebut, didapat grafik:
-		%\begin{center}
-		%	\includegraphics[scale=0.4]{linearshooting.pdf}
-		%\end{center}
+		\begin{center}
+			\includegraphics[scale=0.4]{linearshooting.pdf}
+		\end{center}
 	\end{frame}
-	\begin{frame}{Metode Beda Hingga: Pengantar}
-		content...
+	\begin{frame}{Metode Beda Hingga: Perbandingan Dengan Metode Tembakan Linear}
+		Metode tembakan linear yang dijelaskan sebelumnya hanya melakukan \emph{satu kali} penembakan. Ternyata, bisa ditunjukkan bahwa metode beda hingga itu ekuivalen dengan suatu metode tembakan berulang kali, yang ada di luar pembahasan slides ini. Akibatnya, metode beda hingga akan dijamin stabil melalui
+		\begin{theorem}
+			Misalkan suatu skema beda hingga memenuhi
+			\begin{align*}
+				|\Psi(\vec{u},\vec{v};x,h)| \leq c(|\vec{u}|+|\vec{v}|)
+			\end{align*}
+			dan MNB \eqref{genmnb} terdefinisi dengan baik. Maka skema beda hingga tersebut stabil.
+		\end{theorem}
+		Seperti yang dilihat di slides-slides sebelumnya, untuk metode tembakan linear \emph{tidak ada} jaminan seperti ini. \newline
+		Bukti dari teorema tersebut memerlukan pembahasan yang lebih dalam tentang metode beda hingga. Buktinya ada di \cite{Ascher1995Numerical}, halaman 201-202.
 	\end{frame}
 	\begin{frame}{Contoh Permasalahan}
 		
@@ -304,10 +361,18 @@
 			\centering
 			\includegraphics[width=0.7\textwidth]{Pipa.png}
 		\end{figure}
-		Melalui fungsi Matlab dengan metode Beda Hingga dan Shooting Linear, didapatkan grafik di atas berikut.
-		%\begin{center}
-		%	\includegraphics[scale=0.4]{linearshooting.pdf}
-		%\end{center}
+		Melalui fungsi Matlab dengan metode Beda Hingga dan Shooting Linear, didapatkan grafik di atas berikut. Terlihat perbedaan antara hasil metode \textit{shooting linear} dengan metode beda hingga.
+		
+	\end{frame}
+	
+	\begin{frame}{Pembahasan}
+		\begin{figure}[h] 
+			\centering
+			\includegraphics[width=0.7\textwidth]{Pipa.png}
+		\end{figure}
+		Hasil luaran matlab pun memberikan luaran suhu pipa di 5 m yaitu $95.0199^{\circ}C$ untuk metode
+		(\textit{shooting linear}) dan $-25^{\circ}$C untuk metode (\textit{beda hingga}) 
+		dan untuk suhu pipa di ujung (10 m) yaitu $0^{\circ}$C untuk kedua metode.
 	\end{frame}
 	
 	%	\begin{frame}{Metode Beda Hingga: Pengantar}
