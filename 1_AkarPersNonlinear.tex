@@ -39,6 +39,7 @@
 			d(f(x),f(y))\leq\alpha d(x,y)
 		\end{align}
 		untuk setiap $x,y\in X$. \newline
+		Perhatikan bahwa suatu fungsi $f$ bersifat kontraksi mengakibatkan ia kontinu. \newline 
 		Nanti, kita akan banyak menggunakan pemetaan kontraksi untuk mencari barisan yang konvergen ke suatu akar persamaan nonlinear. Untuk itu, kita memerlukan suatu teorema.
 		\begin{theorem}[Prinsip Kontraksi Banach]
 			Setiap kontraksi tegas di suatu ruang metrik lengkap memiliki titik tetap tunggal.
@@ -70,7 +71,8 @@
 		\begin{align*}
 			f(x) = \lim_{n\to\infty}f^{n+1}(x_0) = \lim_{n\to\infty}f^n(x_0) = x.
 		\end{align*}
-		Maka, $x$ adalah titik tetap bagi $f$.\qed
+		Maka, $x$ adalah titik tetap bagi $f$.\qed\newline
+		Perhatikan bahwa $x_0$ diambil sembarang.
 	\end{frame}
 	\subsection{Galat}
 	\begin{frame}{Galat}
@@ -112,6 +114,66 @@
 	\section{Metode Penaksiran Akar}
 	\subsection{Akar Persamaan Nonlinear}
 	\begin{frame}{Akar Persamaan Nonlinear}
-		content...
+		Sekarang misalkan $f:\mathbb{R}\to\mathbb{R}$. Kita akan mencari solusi dari persamaan
+		\begin{align*}
+			f(x) = 0, \, x\in\mathbb{R}.
+		\end{align*}
+		Untuk menggunakan Prinsip Kontraksi Banach, kita tulis ulang persamaan tersebut sebagai
+		\begin{align}\label{operatorform}
+			x=T(x), \, x\in\mathbb{R}
+		\end{align}
+		dengan $T:\mathbb{R}\to\mathbb{R}$ suatu fungsi yang bergantung pada $f$. Ingat bahwa $\mathbb{R}$ lengkap, maka ada tepat satu solusi dari persamaan tersebut. Sekarang hanya perlu menentukan $T$ yang memudahkan komputasi. \newline
+		Dalam pencarian akar persamaan, ada dua tipe metode numerik:
+		\begin{enumerate}
+			\item \emph{metode pengurung} (akar yang dicari diapit interval),
+			\item \emph{metode terbuka} (akar yang dicari tidak diapit interval).
+		\end{enumerate} 
+	\end{frame}
+	\subsection{Metode-Metode Pengurung}
+	\subsubsection{Metode Bagi Dua}
+	\begin{frame}{Metode Pengurung: Bagi Dua}
+		Metode ini tidak memerlukan Prinisp Kontraksi Banach. Ingat lagi Teorema Nilai Antara:
+		\begin{theorem}
+			Misalkan $f:\mathbb{R}\to\mathbb{R}$ kontinu di $[a,b]$, dan tulis $f(a) = \alpha, f(b) = \beta$. Maka untuk setiap $\gamma\in[\alpha,\beta]$, ada suatu $c\in [a,b]$ sehingga $f(c) = \gamma$.
+		\end{theorem}
+		Bukti. Tanya dosen Analisis Real kalian. \qed \newline
+		Sekarang misalkan $f:[a,b]\to\mathbb{R}$ kontinu dengan $f(a)f(b)<0$ (artinya kedua nilai berbeda tanda). Dari TNA, pasti ada $c\in[a,b]$ sehingga $f(c)=0$.
+	\end{frame}
+	\begin{frame}{Metode Pengurung: Bagi Dua}
+		Sekarang definisikan barisan $\{a_n\},\{b_n\},\{c_n\}$ secara rekursif sebagai berikut:
+		\begin{gather*}
+			a_1 = a, b_1 = b, c_n = \frac{a_n+b_n}{2},\\
+			a_n = \begin{cases}
+				c_{n-1}, & \text{jika } f(b_{n-1})f(c_{n-1})<0, \\
+				a_{n-1}, & \text{selain itu},
+			\end{cases}\\
+			b_n = \begin{cases}
+				c_{n-1}, & \text{jika } f(a_{n-1})f(c_{n-1})<0, \\
+				b_{n-1}, & \text{selain itu}.
+			\end{cases}
+		\end{gather*}
+		Perhitungan barisan dihentikan jika $f(c_k)=0$ untuk suatu $k$. \newline
+		Yang menjadi masalah adalah kita tidak tahu kekonvergenan $c_n$.
+	\end{frame}
+	\begin{frame}{Metode Pengurung: Bagi Dua}
+		\begin{lemma}
+			Misalkan $\{a_n\},\{b_n\},\{c_n\}$ didefinisikan seperti di slide sebelumnya, dan $c$ adalah akar bagi $f$ di $[a,b]$. Maka $c_n\to c$.
+		\end{lemma}
+		Bukti. Menggunakan induksi, didapat $c\in[a_n,b_n]$ untuk setiap $n$. Karena panjang interval dari $[a_n,b_n]$ memenuhi $b_n-a_n = 2^{1-n}(b-a)$, haruslah $\ell[a_n,b_n] \to 0$ ketika $n\to\infty$. Akibatnya, $c_n = \frac{b_n+a_n}{2} \to c$. \qed \newline
+		Maka, metode ini memiliki batas galat $|c_n-c|\leq \frac{b_1-a_1}{2^n}$.
+	\end{frame}
+	\begin{frame}{Metode Pengurung: Bagi Dua}
+		Sekarang kita bisa mendefinisikan suatu prosedur untuk menghampiri akar dari $f:[a,b]\to\mathbb{R}$ yang kontinu menggunakan metode bagi dua dengan toleransi galat $\varepsilon$:
+		\begin{enumerate}
+			\item Tulis $c = \frac{b+a}{2}$.
+			\item Jika $f(c) = 0$, hentikan proses perhitungan. \newline
+			Jika $f(a)f(c) < 0$, tetapkan $b = c$. \newline
+			Jika $f(b)f(c) < 0$, tetapkan $a = c$.
+			\item Ulangi langkah 1-2 sampai $|b-a|<\varepsilon$. Ambil $c$ terakhir sebagai taksiran akar dari $f$.
+		\end{enumerate}
+	\end{frame}
+	\subsubsection{Metode Posisi Palsu}
+	\begin{frame}{Metode Posisi Palsu}
+		Dengan \textit{setting} yang sama dengna metode bagi dua, definisikan $T(x) = $
 	\end{frame}
 \end{document}
