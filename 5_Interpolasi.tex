@@ -1,13 +1,14 @@
 \documentclass[xcolor={dvipsnames}, 9pt]{beamer}
 \usetheme{default}
-\usepackage{amsmath, amsfonts, tikz, xcolor, biblatex}
+\usepackage{amsmath, amsfonts, tikz, xcolor}
+\usepackage[backend=bibtex]{biblatex}
 \usepackage[cal = esstix]{mathalpha}
 \usefonttheme{serif}
 
 \addbibresource{referensi.bib}
 
-\setbeamercolor{background canvas}{bg=BrickRed!25!White}
-\newcommand{\emp}[1]{\textcolor{Blue}{#1}}
+\setbeamercolor{background canvas}{bg=blue!10!White}
+\renewcommand{\emph}[1]{\textcolor{Blue}{#1}}
 
 \title{MatNum: Interpolasi dan Ekstrapolasi}
 \author{Fadhlannafis K. K.}
@@ -16,21 +17,28 @@
 	\begin{frame}[plain]
 		\maketitle
 	\end{frame}
+	\begin{frame}{Daftar Isi}
+		\tableofcontents
+	\end{frame}
+	\section*{Catatan}
 	\begin{frame}{Catatan}
 		PPT ini saya buat untuk menunjang pembelajaran matematika numerik saya, setelah UTS saya di bawah setengahnya rata-rata (alias kuartil 4). \newline
 		Pembahasan di PPT ini cenderung teoritik. Saya mengambil referensi dari PPT Bu Lena dan dari:
 		\nocite{*}
 		\printbibliography
 	\end{frame}
+	\section{Pengantar Masalah Interpolasi}
+	\subsection{Teorema Aproksimasi Weierstrass}
 	\begin{frame}{Teorema Aproksimasi Weierstrass}
 		Interpolasi dan ekstrapolasi, pada dasarnya, adalah menghampiri fungsi kontinu menggunakan polinom. \newline
 		Untuk itu, kita perlu jaminan bahwa selalu ada polinom yang menghampiri fungsi kontinu tersebut. Untuk fungsi-fungsi di $\mathbb{R}$, kita punya \newline
 		\begin{theorem}[Aproksimasi Weierstrass]
-			Misalkan $(C[a,b],\|\cdot\|_\infty)$ adalah ruang bernorm berisi semua fungsi kontinu di $[a,b]$, dan $\mathbb{P}[a,b]$ adalah himpunan semua polinom di $[a,b]$. Maka $\mathbb{P}[a,b]$ padat di $C[a,b]$ terhadap norm $\|\cdot\|_\infty$.
+			Misalkan $(C[a,b],\|\cdot\|_\infty)$ adalah ruang bernorm berisi semua fungsi kontinu di $[a,b]$, dan $\mathbb{P}[a,b]$ adalah himpunan semua polinom yang dibatasi di $[a,b]$. Maka $\mathbb{P}[a,b]$ padat di $C[a,b]$ terhadap norm $\|\cdot\|_\infty$.
 		\end{theorem}
+		Dengan kata lain, jika $f\in C[a,b]$, kita bisa mendekati $f$ dengan polinom $p$, dengan keakuratan seenaknya.
 	\end{frame}
 	\begin{frame}{Teorema Aproksimasi Weierstrass}
-		Bukti. Mengikuti \cite{Pugh2015Real}, WLOG misalkan $f\in C[0,1]$ dan definisikan $g(x)=f(x)-(mx+c)$, dengan
+		Bukti. Mengikuti \cite{Pugh2015Real}, tanpa mengurangi keumuman misalkan $f\in C[0,1]$ dan definisikan $g(x)=f(x)-(mx+c)$, dengan
         \begin{align*}
             m=\frac{f(1)-f(0)}{1}, \text{ dan } c=f(0).
         \end{align*}
@@ -74,15 +82,16 @@
             &\leq \int_{-1}^1 |f(x+t)-f(x)|\beta_n(t) dt \\
             = \int_{|t|<\delta} |f(x+t)-f(x)|\beta_n(t) dt &+\int_{|t|\geq\delta} |f(x+t)-f(x)|\beta_n(t) dt.
         \end{align*}
-        Integral pertama kurang dari $\varepsilon/2$, dan integral kedua kurang dari $\varepsilon/2$ ketika $n$ besar. Maka $P_n\to f$ secara seragam. $\blacksquare$
+        Integral pertama kurang dari $\varepsilon/2$, dan integral kedua kurang dari $\varepsilon/2$ ketika $n$ besar. Maka $P_n\to f$ secara seragam. \qed
     \end{frame}
+    \subsection{Masalah Interpolasi}
     \begin{frame}{Masalah Interpolasi}
         Misalkan $V$ ruang bernorm di $\mathbb{K}$, $V'$ ruang dual dari $V$, dan $V_n$ adalah subruang dari $V$ berdimensi $n$, dengan basis $\{v_1,v_2,\dots,v_n\}$. \newline
         Kita bisa menulis permasalahan interpolasi sebagai berikut. Misalkan $L_i\in V'$, $1\leq i\leq n$, adalah fungsional linear yang kontinu. Jika diberikan $b_i\in\mathbb{K}$, tentukan $u_n\in V_n$ sehingga untuk setiap $i$, berlaku
         \begin{align*}
             L_iu_n = b_i.
         \end{align*}
-        Kondisi tersebut disebut sebagai \emp{syarat interpolasi}. Sekarang hanya perlu dijamin bahwa suatu permasalahan interpolasi memiliki solusi jika memenuhi suatu kondisi.
+        Kondisi tersebut disebut sebagai \emph{syarat interpolasi}. Sekarang hanya perlu dijamin bahwa suatu permasalahan interpolasi memiliki solusi jika memenuhi suatu kondisi.
     \end{frame}
     \begin{frame}{Masalah Interpolasi}
         \begin{theorem}
@@ -94,7 +103,7 @@
                 \item Untuk setiap barisan $\{b_i\}_{i=1}^n$, ada tepat satu $u_n\in V_n$ sehingga $L_1u_n=b_i$.
             \end{enumerate}
         \end{theorem}
-        Bukti. Dari ALE. $\blacksquare$
+        Bukti. Dari ALE. \qed
     \end{frame}
     \begin{frame}{Masalah Interpolasi}
         Maka untuk suatu $u\in V$, bisa didefinisikan penginterpolasi $u_n = \sum_{i=1}^n a_iv_i$ di $V_n$ yang memenuhi
@@ -117,6 +126,8 @@
         \end{align*}
         yang memiliki solusi tunggal jika fungsional-fungsional $L_1,\dots,L_n$ bebas linear terhadap $V_n$.
     \end{frame}
+    \section{Metode Interpolasi}
+    \subsection{Metode Interpolasi 1: Lagrange}
     \begin{frame}{Metode Interpolasi 1: Lagrange}
         Metode interpolasi Lagrange didasari pada masalah interpolasi di $V=C[a,b]$, dan $V_{n+1}=\mathbb{P}_n$. Misalkan $a\leq x_0 < x_1 < \cdots < x_n \leq b$. Jika $f\in V$, maka penginterpolasi Lagrange dari $f$ didefinisikan oleh kondisi $p_n(x_i)=f(x_i)$, $p_n\in V_{n+1}$, $0\leq i\leq n$. Pilih $v_j(x)=x^j$ sebagai basis dari $V_{n+1}$ dan fungsional linear interpolasinya adalah $L_if = f(x_i)$. Maka koefisien-koefisien dari $p_n$ bisa ditentukan dari SPL
         \begin{align}
@@ -155,7 +166,7 @@
                 L_{n1} & L_{n2} & \cdots & L_{nn}
             \end{bmatrix},
         \end{align*}
-        dengan $L_{ij} = \det(L)^{-1}(-1)^{i}\sum_{p_0<p_1<\cdots<p_{n-i}}\prod_{q=0,p_q\neq i}^{n-j}x_{p_i}$.
+        dengan $L_{ij} = (\prod_{k=0, k\neq i}^{n}(x_k-x_i))^{-1}(-1)^{i}\sum_{p_0<p_1<\cdots<p_{n-i}}\prod_{q=0,p_q\neq i}^{n-j}x_{p_i}$.
     \end{frame}
     \begin{frame}{Metode Interpolasi 1: Lagrange}
         Maka,
@@ -187,7 +198,7 @@
         \begin{align*}
             p_n(x) = \sum_{i=0}^{n} y_i\phi_i(x) \text{, dengan } \phi_i(x)=\prod_{j\neq i} \frac{x-x_i}{x_j-x_i}.
         \end{align*}
-        Polinom ini disebut sebagai \emp{polinom Lagrange}. Fungsi-fungsi $\phi_i$ membentuk basis bagi $\mathbb{P}_n$, dan disebut sebagai \emp{fungsi basis Lagrange}.
+        Polinom ini disebut sebagai \emph{polinom Lagrange}. Fungsi-fungsi $\phi_i$ membentuk basis bagi $\mathbb{P}_n$, dan disebut sebagai \emph{fungsi basis Lagrange}.
     \end{frame}
     \begin{frame}{Metode Interpolasi 1: Lagrange}
         Tentunya, sebagai suatu metode numerik, metode interpolasi Lagrange memiliki galat. Galat dari metode ini diberikan dari teorema berikut.
@@ -207,7 +218,7 @@
         \begin{align*}
             0 = g^{(n+1)}(\xi_x) = f^{(n+1)}(\xi_x) - \frac{(n+1)!}{\omega_n(x)}E(x),
         \end{align*}
-        dan hasil terbukti. $\blacksquare$ \newline
+        dan hasil terbukti. \qed \newline
     \end{frame}
     \begin{frame}{Metode Interpolasi 1: Lagrange}
         Contoh: Diberikan dua buah titik $(1;0)$ dan $(6;1.791759469)$. Gunakan polinom interpolasi Lagrange derajat satu untuk menaksir nilai $f(2)$, jika diketahui nilai eksak dari $f(2)=0.6931471806$. \newline
@@ -225,6 +236,7 @@
         \end{align*}
         Dengan demikian, $f(2)\approx p_2(2) = 0.5658443470$, dengan galat $E_1 = 0.6931471806-0.5658443470 = 0.1273028336$.
     \end{frame}
+    \subsection{Metode Interpolasi 2: Newton}
     \begin{frame}{Metode Interpolasi 2: Newton}
         Untuk metode interpolasi ini, dengan \textit{setting} yang sama, definisikan
         \begin{align*}
@@ -233,9 +245,9 @@
                 0 & \text{, jika } i>j.
             \end{cases}
         \end{align*}
-        Maka masalah interpolasi menjadi
+        Maka matriks koefisien masalah interpolasi menjadi
         \begin{align*}
-            \begin{bmatrix}
+            L = \begin{bmatrix}
                 1 & 0 & 0 & \cdots & 0 \\
                 1 & x_1 & 0 & \cdots & 0 \\
                 1 & x_2 & x_2^2 & \cdots & 0 \\
@@ -243,5 +255,9 @@
                 1 & x_n & x_n^2 & \cdots & x_n^n
             \end{bmatrix}
         \end{align*}
+        Perhatikan bahwa matriks tersebut diagonal, dengan determinan $\det(L) = x_1x_2^2x_3^3\dots x_n^n$, yang \emph{bisa saja 0}.
+    \end{frame}
+    \begin{frame}{Metode Interpolasi 2: Newton}
+    	Untuk mencegah 
     \end{frame}
 \end{document}

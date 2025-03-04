@@ -1,0 +1,117 @@
+\documentclass[xcolor={dvipsnames}, 9pt]{beamer}
+\usetheme{default}
+\usepackage{amsmath, amsfonts, tikz, xcolor}
+\usepackage[backend=bibtex]{biblatex}
+\usepackage[cal = esstix]{mathalpha}
+\usefonttheme{serif}
+
+\addbibresource{referensi.bib}
+
+\setbeamercolor{background canvas}{bg=blue!10!White}
+\renewcommand{\emph}[1]{\textcolor{Blue}{#1}}
+
+\title{MatNum: Akar Persamaan Tak Linear}
+\author{Fadhlannafis K. K.}
+\date{10122040}
+\begin{document}
+	\begin{frame}[plain]
+		\maketitle
+	\end{frame}
+	\begin{frame}{Daftar Isi}
+		\tableofcontents
+	\end{frame}
+	\begin{frame}{Catatan}
+		PPT ini saya buat untuk menunjang pembelajaran matematika numerik saya, setelah UTS saya di bawah setengahnya rata-rata (alias kuartil 4). \newline
+		Pembahasan di PPT ini cenderung teoritik. Saya mengambil referensi dari PPT Bu Lena dan dari:
+		\nocite{*}
+		\printbibliography
+	\end{frame}
+	\section{Masalah Penaksiran Akar}
+	\subsection{Prinsip Kontraksi Banach}
+	\begin{frame}{Prinsip Kontraksi Banach}
+		Secara umum, sulit untuk menghitung akar dari persamaan tak linear. Sebagai contoh, akar dari persamaan $x^2y = \sin x$ sangat sulit untuk ditentukan. \newline
+		Untuk sekarang, kita batasi pembahasan pada pendekatan akar dari persamaan $y=f(x)$, dengan $f\in C[a,b]$. \newline
+		Untuk itu, kita akan membangun barisan yang konvergen ke akar dari persamaan tersebut. Tetapi, sekarang kita belum tahu apakah barisan tersebut akan konvergen atau tidak. Sebelum itu, kita perlu mengenal apa itu pemetaan kontraksi.
+	\end{frame}
+	\begin{frame}{Prinsip Kontraksi Banach}
+		Misalkan $(X,d)$ ruang metrik, dan $f:X\to X$. Kita sebut $a\in X$ \emph{titik tetap} $f$ jika $f(a)=a$. Lalu, kita sebut $f$ sebagai \emph{kontraksi tegas} jika ada $\alpha\in[0,1)$ (disebut \emph{konstanta kontraksi/Lipschitz}) sehingga
+		\begin{align}\label{DefKont}
+			d(f(x),f(y))\leq\alpha d(x,y)
+		\end{align}
+		untuk setiap $x,y\in X$. \newline
+		Nanti, kita akan banyak menggunakan pemetaan kontraksi untuk mencari barisan yang konvergen ke suatu akar persamaan nonlinear. Untuk itu, kita memerlukan suatu teorema.
+		\begin{theorem}[Prinsip Kontraksi Banach]
+			Setiap kontraksi tegas di suatu ruang metrik lengkap memiliki titik tetap tunggal.
+		\end{theorem}
+	\end{frame}
+	\begin{frame}{Prinsip Kontraksi Banach}
+		Bukti. Mengikuti \cite{Kainth2023Comprehensive}, misalkan $X$ ruang metrik lengkap dan $f:X\to X$ kontraksi tegas, dengan konstanta Lipschitz $\alpha$. \newline
+		\boxed{\text{Ketunggalan.}} Jika $x,y$ adalah titik tetap berbeda dari $f$, maka
+		\begin{align*}
+			d(x,y) = d(f(x),f(y)) \leq \alpha d(x,y) < d(x,y),
+		\end{align*}
+		kontradiksi. \newline
+		\boxed{\text{Eksistensi.}} Misalkan $x_0\in X$. Tulis $f^n(x)=f\circ f\circ f\circ \cdots \circ f(x)$, dengan komposisi dilakukan sebanyak $n$ kali. Tinjau barisan $\{f^n(x_0)\}$. Dengan menggunakan induksi pada \eqref{DefKont}, didapat
+		\begin{align*}
+			d(f^{n+1}(x_0),f^n(x_0))\leq\alpha d(f^n(x_0),f^{n-1}(x_0))\leq\cdots\leq\alpha^nd(f(x_0),x_0)=\alpha^nD_0,
+		\end{align*}
+		dengan $D_0=d(f(x_0),x_0)$. 
+	\end{frame}
+	\begin{frame}{Prinsip Kontraksi Banach}
+		Misalkan $\varepsilon>0$. Karena $\alpha\in[0,1)$, deret $\sum_{n=1}^{\infty}\alpha^n$ konvergen. Dari kriteria Cauchy, ada suatu $m\in\mathbb{N}$ sehingga
+		\begin{align*}
+			\sum_{n=n_1}^{n_2-1}\alpha^n < \frac{\varepsilon}{1+D_0}
+		\end{align*}
+		untuk setiap $n_2>n_1>m$. Akibatnya, dari pertidaksamaan segitiga,
+		\begin{align}\label{BCPpro1}
+			d(f^{n_2}(x_0),f^{n_1}(x_0))\leq\sum_{n=n_1}^{n_2-1}d(f^{n+1}(x_0),f^n(x_0))\leq D_0\sum_{n=n_1}^{n_2-1}\alpha^n < \varepsilon.
+		\end{align}
+		Maka $\{f^n(x_0)\}$ Cauchy. Karena $X$ lengkap, $\{f^n(x_0)\}$ konvergen. Misalkan $x\in X$ sehingga $f^n(x_0)\to x$. Dari \eqref{DefKont}, $f$ kontinu di $x$. Karena $f^n(x_0)\to x$, didapat $f(f^n(x_0))\to f(x)$. Karena nilai limit tunggal, didapat
+		\begin{align*}
+			f(x) = \lim_{n\to\infty}f^{n+1}(x_0) = \lim_{n\to\infty}f^n(x_0) = x.
+		\end{align*}
+		Maka, $x$ adalah titik tetap bagi $f$.\qed
+	\end{frame}
+	\subsection{Galat}
+	\begin{frame}{Galat}
+		Tentunya, karena kita akan membangun suatu metode numerik, pasti ada galat. Beberapa metode numerik akan dibangun dengan menggunakan Prinsip Kontraksi Banach. Sebagai kelanjutan dari teorema tersebut, kita punya teorema berikut.
+		\begin{theorem}
+			Misalkan $(X,d)$ ruang metrik lengkap, $f:X\to X$ kontraksi tegas dengan konstanta kontraksi $\alpha$ dan titik tetap $u$, dan $\{u_n\}_{n=0}^\infty\subset X$ dengan $u_{n+1} = f(u_n)$. Maka $u_n\to u$, dan batas-batas atas berikut berlaku:
+			\begin{align}
+				d(u_n,u)\leq\frac{\alpha^n}{1-\alpha}d(u_0,u_1)\label{Erbo1} \\
+				d(u_n,u)\leq\frac{\alpha}{1-\alpha}d(u_{n-1},u_n)\label{Erbo2} \\
+				d(u_n,u)\leq\alpha d(u_{n-1},u_n)\label{Erbo3}
+			\end{align}
+		\end{theorem}
+	\end{frame}
+	\begin{frame}{Galat}
+		Bukti. Mengikuti \cite{Han2009Theoretical}, dari sifat kontraktif $f$, didapat
+		\begin{align*}
+			d(u_{n+1},u_n)\leq\alpha d(u_n,u_{n-1})\leq\cdots\leq\alpha^nd(u_1,u_0).
+		\end{align*}
+		Maka untuk sebarang $m\leq n\leq 1$,
+		\begin{align}
+			d(u_m,u_n)&\leq\sum_{j=0}^{m-n-1}d(u_{n+j+1},u_{n+j}) \nonumber\\
+			&\leq\sum_{j=0}^{m-n-1}\alpha^{n+j}d(u_1,u_0)\leq\frac{\alpha^n}{1-\alpha}d(u_1,u_0)\label{errpr1}.
+		\end{align}
+		Karena $\alpha\in[0,1)$, didapat $d(u_m,u_n)\to 0$ ketika $n\to\infty$. Maka $\{u_n\}$ adalah barisan Cauchy. Karena $V$ lengkap, $\{u_n\}$ konvergen ke suatu titik $u'\in V$. Dengan mengambil $n\to\infty$ di persamaan $u_{n+1}=f(u_n)$, didapat $u'=u$ dari kontinuitas $f$.
+	\end{frame}
+	\begin{frame}{Galat}
+		Dengan mengambil $m\to\infty$ di persamaan \eqref{errpr1}, didapat batas \eqref{Erbo1}. \newline
+		Dari
+		\begin{align*}
+			d(u_n,u) = d(T(u_{n-1}),T(u)) \leq \alpha d(u_{n-1},u),
+		\end{align*}
+		kita dapatkan batas \eqref{Erbo3}. Dengan batas ini dan pertaksamaan segitiga, kita peroleh
+		\begin{align*}
+			d(u_n,u)&\leq \alpha d(u_{n-1},u)\leq \alpha(d(u_{n-1},u_n)+d(u_n,u))\\
+			&=\alpha d(u_{n-1},u_n)+\alpha d(u_n,u)
+		\end{align*}
+		yaitu batas \eqref{Erbo2}, karena $\alpha\in[0,1)$.\qed
+	\end{frame}
+	\section{Metode Penaksiran Akar}
+	\subsection{Akar Persamaan Nonlinear}
+	\begin{frame}{Akar Persamaan Nonlinear}
+		content...
+	\end{frame}
+\end{document}

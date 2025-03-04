@@ -1,13 +1,14 @@
 \documentclass[xcolor={dvipsnames}, 9pt]{beamer}
 \usetheme{default}
-\usepackage{amsmath, amsfonts, tikz, xcolor, biblatex}
+\usepackage{amsmath, amsfonts, tikz, xcolor}
+\usepackage[backend=bibtex]{biblatex}
 \usepackage[cal = esstix]{mathalpha}
 \usefonttheme{serif}
 
 \addbibresource{referensi.bib}
 
-\setbeamercolor{background canvas}{bg=BrickRed!25!White}
-\newcommand{\emp}[1]{\textcolor{Blue}{#1}}
+\setbeamercolor{background canvas}{bg=blue!10!White}
+\renewcommand{\emph}[1]{\textcolor{Blue}{#1}}
 
 \title{MatNum: Pengantar}
 \author{Fadhlannafis K. K.}
@@ -16,33 +17,43 @@
 	\begin{frame}[plain]
 		\maketitle
 	\end{frame}
+	\begin{frame}{Daftar Isi}
+		\tableofcontents
+	\end{frame}
+	\section*{Catatan}
 	\begin{frame}{Catatan}
 		PPT ini saya buat untuk menunjang pembelajaran matematika numerik saya, setelah UTS saya di bawah setengahnya rata-rata (alias kuartil 4). \newline
 		Pembahasan di PPT ini cenderung teoritik. Saya mengambil referensi dari PPT Bu Lena dan dari:
 		\nocite{*}
 		\printbibliography
 	\end{frame}
+	\section{Apa Itu Numerik?}
 	\begin{frame}{Apa Itu Numerik?}
-		\emp{Matematika Numerik} adalah ilmu yang mempelajari prosedur untuk memecahkan masalah matematika menggunakan perhitungan yang sederhana. \newline
-		\emp{Analisis Numerik} adalah matematika numerik, dengan mencakup pembuktian rumus-rumus yang diberikan. \newline
-		\emp{Metode Numerik} adalah matematika numerik, dengan lebih menekankan pada penggunaan rumus. \newline
+		\emph{Matematika Numerik} adalah ilmu yang mempelajari prosedur untuk memecahkan masalah matematika menggunakan perhitungan yang sederhana. \newline
+		\emph{Analisis Numerik} adalah matematika numerik, dengan mencakup pembuktian rumus-rumus yang diberikan. \newline
+		\emph{Metode Numerik} adalah matematika numerik, dengan lebih menekankan pada penggunaan rumus. \newline
         Dalam mata kuliah Matematika Numerik, lebih ditekankan metode numerik. \newline
         Dalam slides ini, sangat ditekankan analisis numerik, dengan sedikit cara penggunaan.
 	\end{frame}
+	\subsection{Tahapan}
 	\begin{frame}{Tahapan}
 		content...
 	\end{frame}
+	\subsection{Algoritma}
 	\begin{frame}{Algoritma}
 		content...
 	\end{frame}
+	\subsection{Galat}
 	\begin{frame}{Galat}
 		content...
 	\end{frame}
+	\subsection{Angka Signifikan}
 	\begin{frame}{Angka Signifikan}
 		content...
 	\end{frame}
+	\section{Perlunya Analisis}
 	\begin{frame}{Perlunya Analisis}
-		Pada numerik, kita akan sering berhadapan dengan masalah \emp{konvergensi} dari metode yang kita pilih. \newline
+		Pada numerik, kita akan sering berhadapan dengan masalah \emph{konvergensi} dari metode yang kita pilih. \newline
 		Nantinya, kita akan memperhatikan apakah barisan:
 		\begin{enumerate}
 			\item nilai hampiran akar,
@@ -50,29 +61,34 @@
 			\item vektor hampiran vektor eigen,
 			\item dan lain sebagainya,
 		\end{enumerate}
-		itu konvergen ke yang sebenarnya. Untuk itu, diperlukan \emp{Analisis Fungsional}.
+		itu konvergen ke hasil analitiknya. Untuk itu, diperlukan \emph{Analisis Fungsional} dan \emph{Topologi}.
 	\end{frame}
+	\subsection{Ruang Bernorm}
     \begin{frame}{Ruang Bernorm}
-        Misalkan $V$ adalah ruang vektor atas lapangan $\mathbb{F}$. Kita sebut $V$ sebagai \emp{ruang bernorm} jika ada fungsi \emp{norm} $\|\cdot\|:V\to [0,\infty)$ sehingga untuk setiap $u,v\in V$ dan $\alpha\in\mathbb{F}$:
+        Misalkan $V$ adalah ruang vektor atas lapangan $\mathbb{F}$. Kita sebut $V$ sebagai \emph{ruang bernorm} jika ada fungsi \emph{norm} $\|\cdot\|:V\to [0,\infty)$ sehingga untuk setiap $u,v\in V$ dan $\alpha\in\mathbb{F}$:
         \begin{enumerate}
             \item $\|v\|\geq 0$, dan $\|v\|=0$ jhj $v=0$,
             \item $\|\alpha v\|=|\alpha|\|v\|$,
             \item $\|u+v\|\leq\|u\|+\|v\|$.
         \end{enumerate}
-        Suatu \emp{seminorm} adalah fungsi $\|\cdot\|:V\to[0,\infty)$ yang memenuhi ketiga sifat tadi, kecuali $\|v\|=0$ tidak menjamin $v=0$.
+        Suatu \emph{seminorm} adalah fungsi $\|\cdot\|:V\to[0,\infty)$ yang memenuhi ketiga sifat tadi, kecuali $\|v\|=0$ tidak menjamin $v=0$.
     \end{frame}
     \begin{frame}{Ruang Bernorm}
         Beberapa contoh ruang bernorm adalah:
         \begin{enumerate}
-            \item Di $\mathbb{R}^d$, \emp{norm Euclid} didefinisikan sebagai
+            \item Di $\mathbb{R}^d$, \emph{norm Euclid} didefinisikan sebagai
             \begin{align*}
                 \|x\|_2 = \left(\sum_{i=1}^d x_i^2\right)^{1/2}.
             \end{align*}
-            \item 
+            \item Definisikan $C^1([0,1])$ sebagai himpunan semua fungsi $f:[0,1]\to\mathbb{R}$ yang kontinu dan turunan pertamanya ada. Kita definisikan \emph{sup norm} sebagai
+            \begin{align*}
+            	\|f\|_\infty = \sup_{x\in[0,1]}f(x).
+            \end{align*}
         \end{enumerate}
     \end{frame}
+    \subsection{Ruang Metrik}
 	\begin{frame}{Ruang Metrik}
-		Misalkan $V$ adalah ruang vektor atas lapangan $\mathbb{F}$. Kita sebut $V$ sebagai \emp{ruang metrik} jika ada fungsi \emp{metrik} $d:V\times V\to [0,\infty)$ sehingga untuk setiap $u,v,w\in V$:
+		Misalkan $V$ adalah ruang vektor atas lapangan $\mathbb{F}$. Kita sebut $V$ sebagai \emph{ruang metrik} jika ada fungsi \emph{metrik} $d:V\times V\to [0,\infty)$ sehingga untuk setiap $u,v,w\in V$:
 		\begin{enumerate}
 			\item $d(v,w) \geq 0$, dan $d(v,w) = 0$ jhj $v=w$,
 			\item $d(v,w) = d(w,v)$,
@@ -81,9 +97,61 @@
         Terlihat bahwa ruang metrik adalah perumuman dari ruang bernorm.
 	\end{frame}
     \begin{frame}{Ruang Metrik}
-        
+        \begin{lemma}
+        	Setiap ruang bernorm adalah ruang metrik.
+        \end{lemma}
+        Bukti. Misalkan $(V,\|\cdot\|)$ adalah ruang bernorm. Definisikan $d:V\times V\to [0,\infty)$ sebagai $d(x,y) = \|x-y\|$. Dari sifat norm, $(V,d)$ memenuhi sifat ruang metrik. \qed \newline
     \end{frame}
     \begin{frame}{Konvergensi}
-        
+        Misalkan $(V,d)$ ruang metrik, $(x_n)$ adalah barisan di ruang metrik tersebut, dan $x\in V$. Kita sebut $(x_n)$ \emph{konvergen} ke $x$ jika untuk setiap $\varepsilon>0$, ada $N\in\mathbb{N}$ sehingga jika $n>N$, maka $d(x_n,x)<\varepsilon$. \newline
+        Nanti, ketika membicarakan ruang fungsi, diperlukan konvergensi lain:\newline
+        Misalkan $(f_n)$ adalah barisan fungsi real yang terdefinisi di selang $[a,b]$, dan $f:[a,b]\to\mathbb{R}$. Kita sebut $(f_n)$ \emph{konvergen seragam} ke $f$ jika untuk setiap $\varepsilon>0$, ada $N\in\mathbb{N}$ sehingga jika $n>N$, maka $|f_n(x)-f(x)|<\varepsilon$ \emph{untuk setiap} $x\in[a,b]$.
+    \end{frame}
+    \subsection{Topologi}
+    \begin{frame}{Topologi}
+    	Untuk membahas aproksimasi, kita akan membutuhkan sifat \emph{kepadatan}. Untuk mendefinisikan itu, kita memerlukan sedikit pengetahuan topologi. \newline
+    	Misalkan $(X,d)$ adalah ruang metrik, $E\subseteq X$, dan $x\in X$. Maka kita sebut
+    	\begin{enumerate}
+    		\item $B(x;r)$ sebagai \emph{bola buka} di $X$ dengan \emph{pusat} $x$ dan \emph{radius} $r$ jika $B(x;r) = \{y : d(x,y) < r\}$ (\emph{bola tutup} $\bar{B}(x;r)$ didefinisikan dengan cara serupa, hanya mengganti $<$ dengan $\leq$),
+    		\item $x$ sebagai \emph{titik interior} dari $E$ jika ada $\delta>0$ sehingga $B(x;\delta)\subseteq E$,
+    		\item $E$ disebut \emph{himpunan buka} jika $E=\emptyset$ atau setiap $x\in E$ adalah titik interior di $E$, dan
+    		\item $E$ disebut \emph{himpunan tutup} jika komplemennya, $E^c$, adalah himpunan buka.
+    	\end{enumerate}
+    \end{frame}
+    \begin{frame}{Topologi}
+    	\begin{theorem}
+    		Misalkan $X$ adalah ruang metrik. Maka
+    		\begin{enumerate}
+    			\item Himpunan kosong dan $X$ adalah himpunan buka,
+    			\item Gabungan dari kumpulan himpunan buka $\{E_n\}$ adalah himpunan buka, dan
+    			\item Irisan dari berhingga banyaknya himpunan buka $\{E_n\}_{n=1}^k$ adalah himpunan buka.
+    		\end{enumerate}
+    	\end{theorem}
+    	Bukti. No. 1 langsung didapat dari definisi. \newline
+    	Untuk no. 2, misalkan $x\in\bigcup_1^\infty E_n$. Maka ada suatu $i$ sehingga $x\in E_i$. Karena $E_i$ buka, ada bola buka $B(x;\delta)$ sehingga $B(x;\delta)\subseteq E_i$. Karena $x$ diambil sembarang, didapat $\bigcup_1^\infty E_n$ adalah himpunan buka. \newline
+    	Untuk no. 3, misalkan $E = \bigcap_1^k E_n$ dan $x\in E$. Maka $x\in E_i$ untuk setiap $i$. Karena masing-masing $E_i$ buka, ada bola buka $B(x;\delta_i)$ sehingga $B(x;\delta_i)\subseteq E_i$ untuk setiap $i$. Dengan memilih $\delta=\min\{\delta_1,\delta_2,\dots,\delta_k\}$ didapat $B(x;\delta)\subseteq B(x;\delta_i)\subseteq E_i$ untuk setiap $i$, akibatnya $B(x;\delta)\subseteq E$. \qed
+    \end{frame}
+    \begin{frame}{Penutup}
+    	Sebelum membahas kepadatan, kita memerlukan definisi berikut. \newline
+    	Misalkan $X$ adalah ruang metrik, dan $E\subseteq X$. Kita sebut $x\in X$
+    	\begin{enumerate}
+    		\item titik \emph{limit} di $E$ jika untuk setiap $\epsilon>0$ bola $B(x;\epsilon)$ memuat suatu titik di $E\setminus\{x\}$,
+    		\item titik \emph{terisolasi} jika $x\in E$ dan $x$ bukan titik limit,
+    		\item titik \emph{adheren} di $E$ jika $x\in E$ dan setiap bola yang berpusat di $x$ memuat suatu titik di $E$,
+    		\item titik \emph{batas} di $E$ jika $x\in E$ adheren di $E$ dan $X\setminus E$.
+    	\end{enumerate}
+    	Kita tulis himpunan semua titik limit sebagai $E'$, titik adheren sebagai $\bar{E}$, dan himpunan semua titik batas sebagai $\partial E$. Himpunan $\bar{E}$ disebut \emph{penutup} bagi $E$, dan $\partial E$ disebut \emph{batas} dari E.
+    \end{frame}
+    \begin{frame}{Penutup}
+    	\begin{theorem}
+    		Misalkan $(X,d)$ ruang metrik, $E\subseteq X$, dan $x\in X$. Maka $x\in E'$ jika dan hanya jika ada barisan $(x_n)\subseteq E$ yang masing-masing elemennya berbeda sehingga $x_n\to x$.
+    	\end{theorem}
+    	Bukti. $\boxed{\Rightarrow}$ Misalkan $x\in E'$. 
+    \end{frame}
+    \begin{frame}{Kelengkapan}
+    	content...
+    \end{frame}
+    \begin{frame}{Kepadatan}
+    	content...
     \end{frame}
 \end{document}
